@@ -1,0 +1,253 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Wejoin{% endblock %}
+
+
+{% block nav_bar_index %}
+
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+	<div class="navbar-header">
+	<a class="navbar-brand" href="/">Wejoin</a>
+	</div>
+
+	<div>
+		<ul class="nav navbar-nav navbar-right">
+		{% if request.user.is_anonymous %}  
+		  <!-- Sign up drop down -->
+		  <li class="dropdown">
+		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Sign Up <b class="caret"></b></a>
+		    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+		      <li>
+		        <div class="row">
+		          <div class="col-md-12">
+
+		            <form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav" >
+		            {% csrf_token %} 
+		            	
+		            	<div class="form-group has-feedback">
+						  <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
+						  <input type="email" class="form-control"
+						         name="{{ signupform.email.name }}"
+						         id="signup_{{ signupform.email.name }}"
+						         value="" required> 
+						        <p class="help-text">{{ field.help_text }} </p>
+						   <span class="glyphicon form-control-feedback" aria-hidden="true" id="signup_email_error"></span>
+						</div>
+
+						<div class="form-group has-feedback">
+						  <label class="control-label" for="signup_{{ signupform.password.name }}">{{ signupform.password.label }}</label>
+						  <input type="password" class="form-control"
+						         name="{{ signupform.password.name }}"
+						         id="signup_{{ signupform.password.name }}"
+						         value="" 
+								 data-minlength="8"
+								 data-maxlength="16"
+						         required> 
+						  <span class="help-block with-errors"></span>
+						  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+
+						<div class="form-group" has-feedback>
+						  <label class="control-label" for="signup_comfirmed_password">Confirmed</label>
+						  <input type="password" class="form-control"
+						         name="confirmedpass"
+						         id="signup_comfirmed_password"
+						         data-match="#signup_{{ signupform.password.name }}"
+						         data-match-error="Password don't match"
+						         required> 
+						        <div class="help-block with-errors"></div>
+						</div>
+
+						<div class="form-group">
+		                	<button type="submit" id="signupsubmitid" name="signup_submit" class="btn btn-success btn-block">Sign up</button>
+		              	</div>
+					    <span>{{ signupform.errors }}</span>
+		            </form>  
+		          </div>
+		        </div>
+		      </li>
+		    </ul>
+		  </li>
+	  
+		  <!-- Log in drop down -->
+		  <li class="dropdown">
+		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span>Log in <b class="caret"></b></a>
+		    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+		      <li>
+		        <div class="row">
+		          <div class="col-md-12">
+		            
+					<form data-toggle="validator" class="form" role="form" method="post" action="." accept-charset="UTF-8" id="login-nav">
+						{% csrf_token %}             	
+		            	
+		            	<div class="form-group has-feedback">
+						  <label class="control-label" for="login_{{ loginform.email.name }}">{{ loginform.email.label }}</label>
+						  <input type="email" class="form-control"
+						         name="{{ loginform.email.name }}"
+						         id="login_{{ loginform.email.name }}"
+						         value="" required> 
+						        <p class="help-text">{{ field.help_text }} </p>
+						   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+
+						<div class="form-group has-feedback">
+						  <label class="control-label" for="login_{{ loginform.password.name }}">{{ loginform.password.label }}</label>
+						  <input type="password" class="form-control"
+						         name="{{ loginform.password.name }}"
+						         id="login_{{ loginform.password.name }}"
+						         value="" 
+								 data-minlength="8"
+								 data-maxlength="16"
+						         required> 
+						  <span class="help-block with-errors"></span>
+						  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						</div>
+
+		              	<div class="form-group">
+		                	<button type="submit" name="login_submit" class="btn btn-success btn-block">Login</button>
+		              	</div>
+
+		              	<span>{{ loginform.errors }}</span>
+		            </form>	
+						
+		              
+		          </div>
+		        </div>
+		      </li>
+		    </ul>
+		  </li>  
+	 </div>
+	{% endif %}
+</nav>
+
+{% endblock %}
+
+{% block carousel_index %}
+
+{% endblock %}
+
+{% block test %}
+
+{% if signupform.errors %}
+	<h1>ERRORRRRRR same email again???</h1>
+{% endif %}
+
+<form action="." method="POST">
+{% csrf_token %}
+{{ signupform.as_p }}
+<input type="submit" name="signup_submit">
+</form>
+
+{% if request.user.is_authenticated %}
+
+<div style="text-align:center;">
+	<h1>Hello, {{ user.email }}</h1>
+	<h5><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Logout here.</a></h5>
+</div>
+
+{% if not request.user.is_active %}
+<div style="text-align:center;">
+	<h5>Please activate your account.</h5>
+</div>
+{% endif %}
+
+{% endif %}
+
+
+<script>
+
+
+// $('#signup-nav').on('submit', function(event){
+// 	event.preventDefault();
+//     console.log("form submitted!")  // sanity check
+//     if (check_email()){
+//     	$('#signup-nav').submit();
+//     }
+
+// });
+
+function email_check_result(){
+	if(check_email()){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function check_email() {
+    
+    console.log("Checking...") // sanity check
+    
+    // Get csrftoken Setup Ajax
+	    function getCookie(name) {
+	    var cookieValue = null;
+		    if (document.cookie && document.cookie != '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+	    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+		$.ajaxSetup({
+	    beforeSend: function(xhr, settings) {
+	        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+	            // Only send the token to relative URLs i.e. locally.
+	            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	        }
+	    }
+		});
+	// Get csrftoken
+
+
+	console.log(csrftoken) // sanity check
+
+    $.ajax({
+        url : ".", // the endpoint
+        type : "POST", // http method
+        data : {
+        emailcheck : $('#signup_email').val()
+        }, // data sent with the post request
+        success: function(res, status, xhr) { 
+        	if(res=="OK"){
+        		console.log("Fire");
+        		return true;
+        	}else{
+        		console.log("Bad");
+        		return false;
+        	}	
+  		},
+    	error: function (request, status, error) {
+        	alert(request.responseText);
+   		},
+    });
+};
+
+
+
+</script>
+
+
+{% if request.user.is_poster %}
+<h1>You are a poster.</h1>
+{% endif %}
+
+
+{% endblock %}
+
+{% block custom_script %}
+<script src="{% static "js/validator.min.js" %}"></script>
+{% endblock %}
+
+
+
+
+

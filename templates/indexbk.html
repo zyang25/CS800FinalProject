@@ -1,0 +1,140 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}Wejoin{% endblock %}
+
+{% block content %}
+<form method="POST" action="">{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="submit">
+</form>
+{% endblock %}
+
+
+{% block nav_bar_index %}
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+	<div class="navbar-header">
+	<a class="navbar-brand" href="/">Wejoin</a>
+	</div>
+	<div>
+	<ul class="nav navbar-nav navbar-right">
+	  
+	  <!-- Sign up drop down -->
+	  <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Sign Up <b class="caret"></b></a>
+	    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+	      <li>
+	        <div class="row">
+	          <div class="col-md-12">
+	            
+	            <form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav">{% csrf_token %} 
+	            	
+	            	<div class="form-group has-feedback">
+					  <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
+					  <input type="email" class="form-control"
+					         name="{{ signupform.email.name }}"
+					         id="signup_{{ signupform.email.name }}"
+					         value="{{ signupform.email.value }}" required> 
+					        <p class="help-text">{{ field.help_text }} </p>
+					   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+
+					<div class="form-group has-feedback">
+					  <label class="control-label" for="signup_{{ signupform.password.name }}">{{ signupform.password.label }}</label>
+					  <input type="password" class="form-control"
+					         name="{{ signupform.password.name }}"
+					         id="signup_{{ signupform.password.name }}"
+					         value="{{ signupform.password.value }}" 
+							 data-minlength="8"
+							 data-maxlength="16"
+					         required> 
+					  <span class="help-block with-errors"></span>
+					  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+
+					<div class="form-group" has-feedback>
+					  <label class="control-label" for="signup_comfirmed_password">Confirmed</label>
+					  <input type="password" class="form-control"
+					         name="confirmedpass"
+					         id="signup_comfirmed_password"
+					         data-match="#signup_{{ form.password.name }}"
+					         data-match-error="Password don't match"
+					         required> 
+					        <div class="help-block with-errors"></div>
+					</div>
+
+
+	              	<div class="form-group">
+	                	<button type="submit" name="signup_submit" class="btn btn-success btn-block">Sign up</button>
+	              	</div>
+	              	<span>{{ form.email.errors.as_text }}</span>
+	            </form>
+	            
+	          </div>
+	        </div>
+	      </li>
+	    </ul>
+	  </li>
+	  
+	  <!-- Log in drop down -->
+	  <li class="dropdown">
+	    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span>Log in <b class="caret"></b></a>
+	    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+	      <li>
+	        <div class="row">
+	          <div class="col-md-12">
+	            
+				<form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav">{% csrf_token %}             	
+	            	<div class="form-group has-feedback">
+					  <label class="control-label" for="signup_{{ loginform.email.name }}">{{ loginform.email.label }}</label>
+					  <input type="email" class="form-control"
+					         name="{{ loginform.email.name }}"
+					         id="signup_{{ loginform.email.name }}"
+					         value="{{ loginform.email.value }}" required> 
+					        <p class="help-text">{{ field.help_text }} </p>
+					   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+
+					<div class="form-group has-feedback">
+					  <label class="control-label" for="signup_{{ loginform.password.name }}">{{ loginform.password.label }}</label>
+					  <input type="password" class="form-control"
+					         name="{{ loginform.password.name }}"
+					         id="signup_{{ loginform.password.name }}"
+					         value="{{ loginform.password.value }}" 
+							 data-minlength="8"
+							 data-maxlength="16"
+					         required> 
+					  <span class="help-block with-errors"></span>
+					  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>
+
+	              	<div class="form-group">
+	                	<button type="submit" name="login_submit" class="btn btn-success btn-block">Login</button>
+	              	</div>
+
+	              	<span>{{ form.email.errors.as_text }}</span>
+	            </form>	
+					
+	              
+	          </div>
+	        </div>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+</nav>
+{% endblock %}
+
+{% block carousel_index %}
+	fjdsajflkdsja
+{% endblock %}
+
+{% block custom_script %}
+<script src="{% static "js/validator.min.js" %}"></script>
+{% endblock %}
+
+
+
+
+
