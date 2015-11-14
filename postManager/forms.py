@@ -1,12 +1,13 @@
 from django import forms
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
+from charles import settings
 
 from models import PostBase
 
 class PostForm(ModelForm):
     short_image = forms.ImageField(label='short_image')
-    start_time = forms.DateField(label='start_time',input_formats=['%m/%d/%Y %H:%M:%S'])
+   # start_time = forms.DateField(label='start_time',input_formats=settings.DATE_INPUT_FORMATS)
     class Meta:
         model = PostBase
         exclude = ("user_id",)

@@ -46,12 +46,13 @@ def index(request):
 	}
 	context.update(csrf(request))
 
-	print request.POST
+	# print request.POST
 
 	if request.method == 'POST':
 		
 		if 'postsubmit' in request.POST:
 			if postform.is_valid():
+				print postform.cleaned_data['start_time']
 				newpostform = postform.save(commit=False)
 				newpostform.user_id = request.user
 				newpostform.save()

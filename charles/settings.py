@@ -117,8 +117,19 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
+DATE_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S', # '2006-10-25 14:30:59'
+    '%Y-%m-%d %H:%M',       # '2006-10-25 14:30'
+    '%Y-%m-%d',             # '2006-10-25'
+    '%m/%d/%Y %H:%M:%S',    # '10/25/2006 14:30:59'
+    '%m/%d/%Y %H:%M',       # '10/25/2006 14:30'
+    '%m/%d/%Y',             # '10/25/2006'
+    '%m/%d/%y %H:%M:%S',    # '10/25/06 14:30:59'
+    '%m/%d/%y %H:%M',       # '10/25/06 14:30'
+    '%m/%d/%y'              # '10/25/06'
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -131,13 +142,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static_dirs"),
 )
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', 'AKIAJO7XZVYCRFIQ6RDQ')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY', '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')
-# AWS_STORAGE_BUCKET_NAME = 'wejoinbob'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', 'AKIAJO7XZVYCRFIQ6RDQ')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY', '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')
+AWS_STORAGE_BUCKET_NAME = 'wejoinbob'
 
-# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 
 AUTH_USER_MODEL = 'accounts.MyUser'
