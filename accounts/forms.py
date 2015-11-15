@@ -27,8 +27,7 @@ class SignUpForm(ModelForm):
         user.is_admin = False
         if commit:
             user.save()
-
-        # return user
+        return user
 
 class LoginForm(forms.Form):
 
