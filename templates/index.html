@@ -55,11 +55,13 @@
                     
                   </div>
                 {% if post.expire_time > 0 and post.expire_type == 'day'%}
-               <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
                {% elif post.expire_time  > 0 and post.expire_type == 'hour'%}
-               <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
+               {% elif post.expire_time  > 0 and post.expire_type == 'min'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 分钟</span>
                {% else %}
-                <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">已过期</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">已过期</span>
                {% endif %}
             </div>
             </div>

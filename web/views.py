@@ -41,12 +41,16 @@ def index(request):
 	difftime = []
 
 	for _post in postlist:
-		temp = (_post.start_time - now).days
-		_post.expire_time = temp 
+		_post.expire_time = (_post.start_time - now).days
 		_post.expire_type = 'day'
-		if temp == 0:
+		if _post.expire_time == 0:
 			_post.expire_time = ((_post.start_time - now).seconds)//3600 
 			_post.expire_type = 'hour'
+			if _post.expire_time == 0:
+				_post.expire_time = ((_post.start_time - now).seconds)//60
+				_post.expire_type = 'min'
+
+
 
 	context = {
 	'signupform': signup,
@@ -68,6 +72,7 @@ def index(request):
 				newpostform = postform.save(commit=False)
 				newpostform.user_id = request.user
 				newpostform.save()
+				
 
 		if 'emailcheck' in request.POST:
 			emailcheck = request.POST.get('emailcheck', False)
