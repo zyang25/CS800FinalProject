@@ -1,4 +1,4 @@
-#Django
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.shortcuts import render, render_to_response, RequestContext, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
@@ -18,6 +18,7 @@ from postManager.forms import PostForm
 #Email
 import hashlib, datetime, random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime, date, time
 
 # Create your views here.
 
@@ -36,6 +37,16 @@ def index(request):
 	    postlist = paginator.page(1)
 	except EmptyPage:
 	    postlist = paginator.page(paginator.num_pages)
+	now = datetime.now()
+	difftime = []
+
+	for _post in postlist:
+		temp = (_post.start_time - now).days
+		_post.expire_time = temp 
+		_post.expire_type = 'day'
+		if temp == 0:
+			_post.expire_time = ((_post.start_time - now).seconds)//3600 
+			_post.expire_type = 'hour'
 
 	context = {
 	'signupform': signup,
@@ -43,16 +54,17 @@ def index(request):
     'postlist':postlist,
     'categorys':categorys,
     'postform':postform,
+    'difftime':difftime,
 	}
 	context.update(csrf(request))
 
 	# print request.POST
+	#print postform
 
 	if request.method == 'POST':
 		
 		if 'postsubmit' in request.POST:
 			if postform.is_valid():
-				print postform.cleaned_data['start_time']
 				newpostform = postform.save(commit=False)
 				newpostform.user_id = request.user
 				newpostform.save()

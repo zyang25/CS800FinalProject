@@ -7,13 +7,12 @@ from models import PostBase
 
 class PostForm(ModelForm):
     short_image = forms.ImageField(label='short_image')
-   # start_time = forms.DateField(label='start_time',input_formats=settings.DATE_INPUT_FORMATS)
     class Meta:
         model = PostBase
         exclude = ("user_id",)
         # fields = {'title','start_time','date_range','location','short_description','long_description','short_image','category_id','user_id'}
 
-    # def __init__(self, *args, **kwargs):
-    #     super(PostForm, self).__init__(*args, **kwargs)
-    #     self.fields['short_image'].required = False
-    #     self.fields['user_id'].required = True
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+      
+        
