@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'web',
     'accounts',
+    'checkout',
     'postManager',
     'rest_framework',
     'oauth2_provider',

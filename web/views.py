@@ -15,6 +15,7 @@ from postManager.models import Category
 #Forms
 from accounts.forms import SignUpForm, LoginForm
 from postManager.forms import PostForm
+from checkout.forms import TicketForm
 #Email
 import hashlib, datetime, random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -38,6 +39,7 @@ def index(request):
 	except EmptyPage:
 	    postlist = paginator.page(paginator.num_pages)
 	now = datetime.now()
+#expired time
 	difftime = []
 
 	for _post in postlist:
@@ -62,16 +64,30 @@ def index(request):
 	}
 	context.update(csrf(request))
 
-	# print request.POST
 	#print postform
 
 	if request.method == 'POST':
-		
 		if 'postsubmit' in request.POST:
+			ticketstr =  request.POST.get('ticketstr')
+			ticketlist = ticketstr.split('@@@')
 			if postform.is_valid():
 				newpostform = postform.save(commit=False)
 				newpostform.user_id = request.user
 				newpostform.save()
+				postObject = PostBase.objects.get(pk=newpostform.pk)
+				for ticket in ticketlist:
+					data = {
+					'ticket_descrption':ticket.split(',')[0],
+					'price':ticket.split(',')[1],
+					}
+					ticketform = TicketForm(data)
+					if ticketform.is_valid():
+						newticketform = ticketform.save(commit=False)
+						newticketform.post_id = postObject
+						newticketform.save()
+					
+
+
 				
 
 		if 'emailcheck' in request.POST:

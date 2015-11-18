@@ -119,7 +119,7 @@
         <div class="modal-body">
            <form  method="post" id="postform" action="." name="postform" enctype="multipart/form-data">
                {% csrf_token %}
-<!--            {{postform}}-->
+                <!--  basic post info-->
                <div class="form-group row">
                     <label for="title" class="col-sm-2 form-control-label">Title</label>
                     <div class="col-sm-10">
@@ -146,12 +146,14 @@
                 });
                  </script>           
               </div>
+              <!-- 
                <div class="form-group row">
                 <label for="Date_range" class="col-sm-2 form-control-label">Date range</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="Date_range" placeholder="Date_range" name="{{postform.date_range.name}}">
                 </div>
               </div>
+              -->
                 <div class="form-group row">
                 <label for="short_description" class="col-sm-2 form-control-label">Short description</label>
                 <div class="col-sm-10">
@@ -170,7 +172,7 @@
                     <input type="file" name="{{postform.short_image.name}}" class="form-control-file" id="short_image">
                 </div>
               </div>
-                <div class="form-group row">
+              <div class="form-group row">
                 <label for="category_id" class="col-sm-2 form-control-label">Category</label>
                 <div class="col-sm-10">
                    <select class="c-select" id="id_{{postform.category_id.name}}" name="{{postform.category_id.name}}">
@@ -180,6 +182,93 @@
                     </select>
                 </div>
               </div>
+              <hr>
+              <!--add ticket-->
+              <div class="form-group row" style="display:none;">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <input type="text" name="ticketstr" class="form-control-file" id="ticket_str">
+                </div>
+              </div>
+              
+              <div class="form-group row">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <table id = "tickets" data-toggle="table" class="table">
+                        <thead>
+                            <tr>
+                                <th>description</th>
+                                <th>price</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+              </div>
+            
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add ticket</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                              <input type="text" name="ticket_name" class="form-control" id="ticket_name" placeholder="ticket_name">
+                          </td>
+                          <td rowspan="2" style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addticket()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+                      <tr>
+                          <td  style="border-top:0px">
+                             <input type="text" name="price" class="form-control" id="price" placeholder="price">
+                          </td>
+                      </tr>
+
+                  </table>
+  
+                </div>
+              </div>
+              <hr>
+                <!-- more image
+                <div class="form-group row">
+                  <div class="col-sm-6" id="slider-thumbs">
+                    <ul id="show_more_image" class="hide-bullets">
+                   
+                      <li class="col-sm-3">
+                          <a class="thumbnail" id="carousel-selector-0">
+                              <img src="http://placehold.it/150x150&text=zero">
+                          </a>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add more image</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                             <input type="file" name="more_image" class="form-control-file" multiple="" id="more_image">
+                          </td>
+                          <td  style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addimage()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+          
+
+                  </table>
+  
+                </div>
+              </div>
+-->
              
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">稍后再说</button>
@@ -190,6 +279,44 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  
+function addticket(){
+   var ticket_name = document.getElementById('ticket_name').value;
+   var price  = document.getElementById('price').value;
+   var table_ticket = document.getElementById("tickets");
+   var row = table_ticket.insertRow(); 
+   var cell_name = row.insertCell(); 
+   var cell_price = row.insertCell(); 
+   cell_name.innerHTML = ticket_name ;
+   cell_price.innerHTML = price + " $";
+   document.getElementById('ticket_name').value = "";
+   document.getElementById('price').value = "";
+   var ticketstr = document.getElementById('ticket_str').value;
+   if(ticketstr!=''){
+      ticketstr = ticketstr + '@@@' + ticket_name +',' +price ;
+   }else{
+          ticketstr = ticketstr + ticket_name +',' +price ;
+   }
+   document.getElementById('ticket_str').value = ticketstr;
+}
+// function addimage(){
+//     var show_more_image = document.getElementById('show_more_image');
+    
+//     var li = document.createElement("li");
+//     li.className = "col-sm-3";
+//     var a = document.createElement("a");
+//     var img = document.createElement("img");
+//     a.className = 'thumbnail';
+//     li.appendChild(a);
+//     a.appendChild(img);
+//     show_more_image.appendChild(li);
+
+//     var more_image = document.getElementById('more_image');
+//     alert(more_image);
+    
+// }
+</script>
 
 {% endblock %}
 

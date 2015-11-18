@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
-from charles import settings
 
 from models import PostBase
 
