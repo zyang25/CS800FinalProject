@@ -75,7 +75,9 @@ function check_password(){
         url : ".", // the endpoint
         type : "POST", // http method
         data : {
-        checkpassword_ajax: 1,
+            email: $('#login_email').val(),
+            password: $('#login_password').val(),
+            checkpassword_ajax: 1,
         },
         success: function(res, status, xhr) { 
             if(res=="OK"){
