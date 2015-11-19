@@ -155,7 +155,7 @@ STATICFILES_DIRS = (
 AUTH_USER_MODEL = 'accounts.MyUser'
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
-'accounts.backends.EmailAuthBackend',
+# 'accounts.backends.EmailAuthBackend',
 'django.contrib.auth.backends.ModelBackend',
 )
 
