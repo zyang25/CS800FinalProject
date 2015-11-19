@@ -37,12 +37,16 @@ function check_email() {
         success: function(res, status, xhr) { 
         	if(res=="OK"){
         		console.log("Good");
-        		
-        		return true;
+        		$('#signup-nav').unbind('submit');
+
+        		$('<input/>').attr('type', 'hidden')
+          		.attr('name', "signup_submit")
+          		.appendTo('#signup-nav');
+        		$('#signup-nav').submit();
+
         	}else{
         		$('#signup_email_error').text('Email already exists.')
         		console.log("Email already exists.");
-        		return false;
         	}	
   		},
     	error: function (request, status, error) {

@@ -67,6 +67,7 @@ def index(request):
 	#print postform
 
 	if request.method == 'POST':
+		print request.POST
 		if 'postsubmit' in request.POST:
 			ticketstr =  request.POST.get('ticketstr')
 			ticketlist = ticketstr.split('@@@')

@@ -239,14 +239,11 @@
 
 <script type="text/javascript">
 
-// $('#signup-nav').submit(function(){
-//   $('#signup_email_error').text('')
-//     if(check_email()){
-//       console.log('Submitting')
-//       return true;  
-//     }
-//     return false;
-// });
+$('#signup-nav').submit(function(e){
+  // $('#signup_email_error').text('')
+    e.preventDefault();
+    check_email();
+});
 </script>
 
 </body>
