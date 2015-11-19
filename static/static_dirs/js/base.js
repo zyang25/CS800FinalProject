@@ -38,14 +38,14 @@ function check_email() {
         	if(res=="OK"){
         		console.log("Good");
         		$('#signup-nav').unbind('submit');
-
         		$('<input/>').attr('type', 'hidden')
           		.attr('name', "signup_submit")
           		.appendTo('#signup-nav');
         		$('#signup-nav').submit();
 
         	}else{
-        		$('#signup_email_error').text('Email already exists.')
+        		$('#form_email_div').attr('class','form-group has-feedback has-error');
+        		$('#signup_email_error').text('Email already exists.');
         		console.log("Email already exists.");
         	}	
   		},

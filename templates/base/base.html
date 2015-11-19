@@ -127,14 +127,13 @@
                 <form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav">
                 {% csrf_token %} 
                   
-                  <div class="form-group has-feedback">
+                  <div class="form-group has-feedback" id="form_email_div">
                     <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
                     <input type="email" class="form-control"
                        name="{{ signupform.email.name }}"
                        id="signup_{{ signupform.email.name }}"
                        value="" required> 
                       <p class="help-text">{{ field.help_text }} </p>
-                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <span id="signup_email_error"></span>
                   </div>
 
