@@ -87,8 +87,8 @@ def index(request):
 						newticketform.post_id = postObject
 						newticketform.save()
 
-		if 'emailcheck' in request.POST:
-			emailcheck = request.POST.get('emailcheck', False)
+		if 'checkemail_ajax' in request.POST:
+			emailcheck = request.POST.get('checkemail_ajax', False)
 			u = MyUser.objects.filter(email=emailcheck).count()
 			if u !=0:
 				res = "Bad";

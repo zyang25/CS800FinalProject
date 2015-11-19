@@ -34,7 +34,7 @@ function check_email() {
         url : ".", // the endpoint
         type : "POST", // http method
         data : {
-        emailcheck : $('#signup_email').val()
+        checkemail_ajax : $('#signup_email').val(),
         }, 
         success: function(res, status, xhr) { 
         	if(res=="OK"){
@@ -75,8 +75,6 @@ function check_password(){
         url : ".", // the endpoint
         type : "POST", // http method
         data : {
-        email : $('#login_email').val(),
-        password: $('#login_password').val(),
         checkpassword_ajax: 1,
         },
         success: function(res, status, xhr) { 
