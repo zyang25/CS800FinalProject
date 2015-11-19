@@ -17,7 +17,7 @@ from accounts.forms import SignUpForm, LoginForm
 from postManager.forms import PostForm
 from checkout.forms import TicketForm
 #Email
-import hashlib, datetime, random
+import hashlib, datetime as signup_datetime, random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, date, time
 
@@ -109,7 +109,7 @@ def index(request):
 				email = signup.cleaned_data['email']
 				salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
 				activation_key = hashlib.sha1(salt+email).hexdigest()            
-				key_expires = datetime.datetime.today() + datetime.timedelta(2)
+				key_expires = signup_datetime.datetime.today() + signup_datetime.timedelta(2)
 
 				#Get user by email
 				user = MyUser.objects.get(email=email)
