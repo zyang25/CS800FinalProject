@@ -86,10 +86,6 @@ def index(request):
 						newticketform = ticketform.save(commit=False)
 						newticketform.post_id = postObject
 						newticketform.save()
-					
-
-
-				
 
 		if 'emailcheck' in request.POST:
 			emailcheck = request.POST.get('emailcheck', False)
@@ -101,6 +97,27 @@ def index(request):
 				res = "OK"
 				print "OK"
 			return HttpResponse(res)
+
+		if 'checkpassword_ajax' in request.POST:
+			# emailcheck = request.POST.get('emailcheck',False)
+			# passwordcehck = request.POST.get('passwordcheck',False)
+			print "You are in Ajax checking"
+			if login.is_valid():
+				email = login.cleaned_data['email']
+				password = login.cleaned_data['password']
+				print email,password
+				user = authenticate(email=email, password=password)
+				if user is not None:
+					res = "OK"
+					print("User is valid in Ajax")
+				else:
+					res = "Bad"
+					print("User is not valid in Ajax")
+				return HttpResponse(res)
+			else:
+				res = "Login form is not correct"
+				print res
+				return HttpResponse(res)
 
 		if 'signup_submit' in request.POST:
 			if signup.is_valid():
@@ -132,8 +149,6 @@ def index(request):
 				to_list = [email, settings.EMAIL_HOST_USER]
 				send_mail(email_subject, email_body,from_email,to_list, fail_silently=False)
 
-
-
 			else:
 				print signup.is_valid()   #form contains data and errors
         		print signup.errors
@@ -147,9 +162,8 @@ def index(request):
 				print email,password
 				user = authenticate(email=email, password=password)
 				if user is not None:
-					if user.is_active:	
-						auth_login(request, user)
-						print("User is valid, active and authenticated")
+					auth_login(request, user)
+					print("User is valid, active and authenticated")
 				else:
 					print("User is not valid.")
 
