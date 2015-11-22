@@ -6,15 +6,15 @@
     <div class="row">
       <div class="col-xs-4">
         <div class="user_wraper">
-          <a href="" class="list-group-item active">个人资料</a>
-          <a href="#" class="list-group-item">你举办的活动</a>
-          <a href="#" class="list-group-item">你收到的预定</a>
+          <li><a href="" class="list-group-item active">个人资料</a></li>
+          <li><a href="#" class="list-group-item">你举办的活动</a></li>
+          <li><a href="#" class="list-group-item">你收到的预定</a></li>
         </div>
       </div>
       <div class="col-xs-5">
         <div class="thumbnail">
-        <h3>Welcome, {{request.user.email}}</h3>
-        <hr>
+          <h3>Welcome, {{request.user.email}}</h3>
+          <hr>
           <div class="caption-full">
             <form class="form-horizontal" method="POST" action=".">
               {% csrf_token %}
@@ -92,5 +92,5 @@
         </div>
       </div>
     </div>
-</div>   
-  {% endblock %}
+  </div>
+{% endblock %}
