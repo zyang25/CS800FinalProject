@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^indextest/$', 'web.views.index_test', name='index_test'),
     # Account
+    url(r'^user/$', 'accounts.views.account_admin',name="account_admin"),
+    url(r'^user/profile$', 'accounts.views.account_profile',name="account_profile"),
     url(r'^profile/$', 'accounts.views.account_profile',name="account_profile"),
     url(r'^logout/$', 'django.contrib.auth.views.logout',name="account_logout"),
     url(r'^accounts/confirm/(?P<activation_key>\w+)/$', 'accounts.views.register_confirm',name="confirm_activation"),

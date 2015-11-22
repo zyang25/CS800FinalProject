@@ -1,5 +1,6 @@
 from django.http import *
-from django.shortcuts import render_to_response, RequestContext
+from django.shortcuts import render_to_response, RequestContext, render
+from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 #Forms
 from .forms import SignUpForm, LoginForm
@@ -51,3 +52,33 @@ def register_confirm(request, activation_key):
 	# Delete it
 	user_activation.delete()
 	return HttpResponse('<center><h1>Account activated<br></h1></center>')
+
+@login_required(login_url='/')
+def account_admin(request):
+	template_name = 'account/user_admin.html'
+	return render(request,template_name)
+
+@login_required(login_url='/')
+def account_profile(request):
+	template_name = 'account/user_profile.html'
+
+	userinfo = UserInfo.objects.get(owner=request.user.pk)
+		
+	context = {
+	'user_info':userinfo,
+	}
+
+	if request.method == 'POST':
+		userprofileform = UserProfile(request.POST or None)
+		print userprofileform
+		if userprofileform.is_valid():
+			newprofile = userprofileform.save(commit=False)
+			newprofile.owner = request.user
+			newprofile.save()
+			userinfo = UserInfo.objects.get(owner=request.user.pk)
+			context = {
+			'user_info':userinfo,
+			}
+			context.update(csrf(request))
+
+	return render(request,template_name,context)
