@@ -128,21 +128,20 @@
                 {% csrf_token %} 
                   
                   <div class="form-group has-feedback" id="form_email_div">
-                    <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
                     <input type="email" class="form-control"
                        name="{{ signupform.email.name }}"
                        id="signup_{{ signupform.email.name }}"
-                       value="" required> 
+                       value="" placeholder = "{{ signupform.email.label }}"
+                       required> 
                       <p class="help-text">{{ field.help_text }} </p>
                     <span id="signup_email_error"></span>
                   </div>
 
                   <div class="form-group has-feedback">
-                    <label class="control-label" for="signup_{{ signupform.password.name }}">{{ signupform.password.label }}</label>
                     <input type="password" class="form-control"
                            name="{{ signupform.password.name }}"
                            id="signup_{{ signupform.password.name }}"
-                           value="" 
+                           value="" placeholder="{{ signupform.password.label }}"
                        data-minlength="6"
                        data-maxlength="16"
                            required> 
@@ -151,12 +150,11 @@
                   </div>
 
                   <div class="form-group" has-feedback>
-                    <label class="control-label" for="signup_comfirmed_password">Confirmed</label>
                     <input type="password" class="form-control"
                            name="confirmedpass"
                            id="signup_comfirmed_password"
                            data-match="#signup_{{ signupform.password.name }}"
-                           data-match-error="Password don't match"
+                           data-match-error="Password don't match" placeholder="Confirmed Password"
                            required> 
                           <div class="help-block with-errors"></div>
                   </div>
@@ -191,20 +189,19 @@
                   {% csrf_token %}              
               
                   <div class="form-group has-feedback">
-                    <label class="control-label" for="login_{{ loginform.email.name }}">{{ loginform.email.label }}</label>
                     <input type="email" class="form-control"
                            name="{{ loginform.email.name }}"
                            id="login_{{ loginform.email.name }}"
-                           value="" required> 
+                           value="" placeholder="Email address" required> 
                           <p class="help-text">{{ field.help_text }} </p>
                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   </div>
 
                 <div class="form-group has-feedback" id="form_password_div">
-                  <label class="control-label" for="login_{{ loginform.password.name }}">{{ loginform.password.label }}</label>
+
                   <input type="password" class="form-control"
                          name="{{ loginform.password.name }}"
-                         id="login_{{ loginform.password.name }}"
+                         id="login_{{ loginform.password.name }}" placeholder="{{ loginform.password.label }}"
                          value="" 
                      data-minlength="6"
                      data-maxlength="16"
