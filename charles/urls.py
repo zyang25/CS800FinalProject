@@ -24,9 +24,12 @@ urlpatterns = [
     url(r'^indextest/$', 'web.views.index_test', name='index_test'),
     # Account
     url(r'^user/$', 'accounts.views.account_admin',name="account_admin"),
-    url(r'^user/profile$', 'accounts.views.account_profile',name="account_profile"),
-    url(r'^profile/$', 'accounts.views.account_profile',name="account_profile"),
-    url(r'^logout/$', 'django.contrib.auth.views.logout',name="account_logout"),
+    url(r'^user/profile$', 'accounts.views.user_profile',name="user_profile"),
+    url(r'^user/activity/host$', 'accounts.views.user_activity_host',name="user_activity_host"),
+    url(r'^user/activity/join$', 'accounts.views.user_activity_join',name="user_activity_join"),
+    url(r'^user/activity/favorite$', 'accounts.views.user_activity_favorite',name="user_activity_favorite"),
+    #url(r'^profile/$', 'accounts.views.account_profile',name="account_profile"),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',name="user_logout"),
     url(r'^accounts/confirm/(?P<activation_key>\w+)/$', 'accounts.views.register_confirm',name="confirm_activation"),
     # Post
     url(r'^', include('postManager.urls')),

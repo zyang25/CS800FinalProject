@@ -7,8 +7,26 @@ ul {
 }
 
 .user_wraper {
-	float: right;
-	width: 250px;
+	/*float: right;
+	width: 250px;*/
+}
+
+.user-nav-control {
+	display: block;
+	text-align: right;
+	margin-bottom: 13px;	
+}
+
+.user-nav-control.active{
+	border-style: solid;
+	border-color: #E0393E;
+	border-width:0 4px 0 0;
+}
+
+.user-nav-control-link {
+	font-size: 15px;
+	padding-right: 10px;
+
 }
 
 .thumbnail {
