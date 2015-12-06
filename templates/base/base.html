@@ -1,0 +1,275 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <title>{% block title %}Wejoin{% endblock %}</title>
+    <!-- Custom CSS First priority-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
+    <!-- jQuery -->
+    <script src="{% static "js/jquery.min.js"%}"></script>
+    <script src="{% static "js/base.js"%}"></script>
+    <!-- Moment -->
+    <script src="{% static "js/moment-with-locales.js"%}"></script>
+    <!-- Bootstrap -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-datetimepicker.css" %}" rel="stylesheet">
+    <script src="{% static "js/bootstrap-datetimepicker.js" %}"></script>
+
+    <!-- checkout icon -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+</head>
+<body>
+
+    <!-- Navigation -->
+    <div class="row">
+        <div class="nav_bar" id="nav_bar_index">
+            {% block nav_bar_index %}
+
+            <nav class="navbar navbar-wejoin">
+                <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="/">Wejoin</a>
+                </div>
+                {% if not request.user.is_authenticated %}
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" data-toggle="modal" data-target="#signupmodal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#loginmodal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  </ul>
+                </div>
+                {% else %}
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{request.user.email}}</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/profile/">Edit Profile</a></li>
+                        <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Log out</a></li>
+                      </ul>
+                    </li>
+                 </ul>
+                </div>
+                {% endif %}
+              </div>
+            </nav>
+
+
+            {% endblock %}
+        </div>
+    </div>
+    
+    <!-- Carousel Header or other header-->
+    <div class="row">
+        <div id="carousel_index">
+            {% block carousel_index %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="row">
+        <div class="container">
+
+            <div class="row" id="post_content_index">
+                <div class="col-lg-12">
+                    {% block other_content %}
+                    {% endblock %}
+                    {% block post_content_index %}
+                    {% endblock %}
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center><p>Copyright &copy; Wejoin 2015</p></center>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </footer>
+
+        </div>
+    </div>
+    
+    <!-- Bootstrap js-->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+  
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+{% block modal %}
+{% endblock %}
+
+<!-- Modal Signup -->
+<div id="signupmodal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Sign up</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+                <form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav">
+                {% csrf_token %} 
+                  
+                  <div class="form-group has-feedback" id="form_email_div">
+                    <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
+                    <input type="email" class="form-control"
+                       name="{{ signupform.email.name }}"
+                       id="signup_{{ signupform.email.name }}"
+                       value="" required> 
+                      <p class="help-text">{{ field.help_text }} </p>
+                    <span id="signup_email_error"></span>
+                  </div>
+
+                  <div class="form-group has-feedback">
+                    <label class="control-label" for="signup_{{ signupform.password.name }}">{{ signupform.password.label }}</label>
+                    <input type="password" class="form-control"
+                           name="{{ signupform.password.name }}"
+                           id="signup_{{ signupform.password.name }}"
+                           value="" 
+                       data-minlength="6"
+                       data-maxlength="16"
+                           required> 
+                    <span class="help-block with-errors"></span>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  </div>
+
+                  <div class="form-group" has-feedback>
+                    <label class="control-label" for="signup_comfirmed_password">Confirmed</label>
+                    <input type="password" class="form-control"
+                           name="confirmedpass"
+                           id="signup_comfirmed_password"
+                           data-match="#signup_{{ signupform.password.name }}"
+                           data-match-error="Password don't match"
+                           required> 
+                          <div class="help-block with-errors"></div>
+                  </div>
+
+                  <div class="form-group">
+                      <button type="submit" id="signupsubmitid" name="signup_submit" class="btn btn-success btn-block">Sign up</button>
+                  </div>
+                  
+                </form>  
+              </div>
+          </div>     
+        </div>
+        <div class="modal-footer">
+            <center><p>Already a Wejoin member?<a href="">Log in</a></p></center>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- Modal login-->
+<div id="loginmodal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Login</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+            <!-- SignUpForm -->
+              <form data-toggle="validator" class="form" role="form" method="post" action="." accept-charset="UTF-8" id="login-nav">
+                  {% csrf_token %}              
+              
+                  <div class="form-group has-feedback">
+                    <label class="control-label" for="login_{{ loginform.email.name }}">{{ loginform.email.label }}</label>
+                    <input type="email" class="form-control"
+                           name="{{ loginform.email.name }}"
+                           id="login_{{ loginform.email.name }}"
+                           value="" required> 
+                          <p class="help-text">{{ field.help_text }} </p>
+                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  </div>
+
+                <div class="form-group has-feedback" id="form_password_div">
+                  <label class="control-label" for="login_{{ loginform.password.name }}">{{ loginform.password.label }}</label>
+                  <input type="password" class="form-control"
+                         name="{{ loginform.password.name }}"
+                         id="login_{{ loginform.password.name }}"
+                         value="" 
+                     data-minlength="6"
+                     data-maxlength="16"
+                         required> 
+                  <span class="help-block with-errors"></span>
+                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  <span id="login_password_error"></span>
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" name="login_submit" class="btn btn-success btn-block">Login</button>
+                </div>
+              </form> 
+
+              </div>
+          </div>     
+        </div>
+        <div class="modal-footer">
+            <center><p>Don’t have an account? <a href="">Sign up</a></p></center>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% block test %}
+{% endblock %}
+
+<!-- Custom JS -->
+{% block custom_script %}
+<script src="{% static "js/validator.min.js" %}"></script>
+{% endblock %}
+
+<script type="text/javascript">
+
+$('#signup-nav').submit(function(e){
+  // $('#signup_email_error').text('')
+    e.preventDefault();
+    check_email();
+});
+
+$('#login-nav').submit(function(e){
+  e.preventDefault();
+  check_password();
+});
+</script>
+
+<!-- Stripe JS -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+{% block script %}
+
+{% endblock %}
+
+<!-- Stripe JQuery -->
+
+<script>
+  $(document).ready(function(){
+    {% block jquery%}
+    {% endblock%}
+  });
+</script>
+
+
+</body>
+</html>

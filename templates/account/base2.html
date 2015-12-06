@@ -1,0 +1,108 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <title>{% block title %}Wejoin{% endblock %}</title>
+    <!-- Custom CSS First priority-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
+    <!-- jQuery -->
+    <script src="{% static "js/jquery.min.js"%}"></script>
+    <!-- Bootstrap -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "user_profile/css/user.css" %}" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="row">
+        <div class="nav_bar" id="nav_bar_index">
+            {% block nav_bar_index %}
+
+            <nav class="navbar navbar-wejoin">
+                <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="/">Wejoin</a>
+                </div>
+                {% if not request.user.is_authenticated %}
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" data-toggle="modal" data-target="#signupmodal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#loginmodal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  </ul>
+                </div>
+                {% else %}
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{request.user.email}}</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/profile/">Edit Profile</a></li>
+                        <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Log out</a></li>
+                      </ul>
+                    </li>
+                 </ul>
+                </div>
+                {% endif %}
+              </div>
+            </nav>
+
+
+            {% endblock %}
+        </div>
+    </div>
+    
+    {% block content %}
+    {% endblock %}
+
+    <!-- Page Content -->
+    <div class="row">
+        <div class="container">
+
+            <div class="row" id="post_content_index">
+                <div class="col-lg-12">
+                    {% block post_content_index %}
+                    {% endblock %}
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center><p>Copyright &copy; Wejoin 2015</p></center>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </footer>
+
+        </div>
+    </div>
+    
+   
+
+{% block test %}
+{% endblock %}
+
+
+<!-- Bootstrap js-->
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<!-- Custom JS -->
+{% block custom_script %}
+<script src="{% static "js/validator.min.js" %}"></script>
+{% endblock %}
+
+</body>
+</html>

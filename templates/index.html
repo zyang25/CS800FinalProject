@@ -1,0 +1,326 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+<!--Custom css-->
+{% block customcss %}
+
+{% endblock %}
+<!--Custom css-->
+
+{% block title %}Wejoin{% endblock %}
+
+
+
+{% block carousel_index %}
+
+{% endblock %}
+
+<!-- Test block -->
+{% block test %}
+
+{% endblock %}
+
+{% block post_content_index %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Join now
+                <small> 留学生活有你更精彩</small>
+            </h1>
+        </div>
+    </div>
+     
+    <div class="row">
+        {% for post in postlist %}
+          <div class="col-md-4 portfolio-item" style="height:320px;">
+              <div style="position:relative;overflow:hidden;width:290px;">
+                <a href="{% url 'checkout'%}">
+                    <img  class="img-responsive"    src="{% static post.short_image.name %}" alt="" style="height:200px;width:290px;">
+                </a>
+                <div style="width:290px;background-color:#F2F2F2">
+                    <div style="height:14px"></div>
+                    <div>
+                        <span style="color:#333;margin:15px;font-size:15px;color:#888;">{{post.short_description}}</span>
+                    </div>
+                    <div style="height:14px;">
+                    </div>
+                    <div style="height:25px;text-align: center;">
+                        <span class="label label-default">{{post.start_time}}</spanp>
+                    </div>
+                    <div class="price" style="text-align:right;">
+                        <sup class="superscript">$</sup>
+                        <span class="plan-price">15&nbsp;&nbsp;&nbsp;</span>
+                    
+                    </div>
+                    
+                  </div>
+                {% if post.expire_time > 0 and post.expire_type == 'day'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
+               {% elif post.expire_time  > 0 and post.expire_type == 'hour'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
+               {% elif post.expire_time  > 0 and post.expire_type == 'min'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 分钟</span>
+               {% else %}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">已过期</span>
+               {% endif %}
+            </div>
+            </div>
+         {% endfor %}
+    </div>
+    <hr>
+    <!-- Pagination -->
+   
+            <div class="row text-center">
+            <div class="col-lg-12">
+                <div class="pagination">
+                <li>
+                    {% if postlist.has_previous %}
+                     <a href="?page={{ postlist.previous_page_number }}">&laquo;</a>
+                    {% else %}
+                    <a href="#">&laquo;</a>
+                    {% endif %}
+                </li>
+               
+                {% for page in postlist.paginator.page_range%}
+                    
+                {% if postlist.number != page %}
+                <li>
+                    <a href="?page={{ page }}">{{page}}</a>
+                </li>
+                {% else %}
+                <li class="active">
+                    <a href="?page={{ page }}">{{page}}</a>
+                </li>
+                {% endif %}
+                   
+                {%endfor%}
+                <li>
+                    {% if postlist.has_next %}
+                    <a href="?page={{ postlist.next_page_number }}">&raquo;</a>
+                    {% else %}
+                    <a href="#">&raquo;</a>
+                    {% endif %}
+                </li>
+                </div>
+            </div>
+                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"> 加入我们</button>
+        </div>
+    
+</div>
+
+<!-- Modal joinus -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">加入我们</h4>
+        </div>
+        <div class="modal-body">
+           <form  method="post" id="postform" action="." name="postform" enctype="multipart/form-data">
+               {% csrf_token %}
+                <!--  basic post info-->
+               <div class="form-group row">
+                    <label for="title" class="col-sm-2 form-control-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="{{ postform.title.name }}" class="form-control" id="title" placeholder="title">
+                    </div>
+              </div>
+               <div class="form-group row">
+                    <label for="loaction" class="col-sm-2 form-control-label">Loaction</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="loaction" placeholder="loaction" name="{{ postform.location.name }}">
+                    </div>
+              </div>
+               <div class="form-group row">
+                <label for="start_time" class="col-sm-2 form-control-label">Start time</label>
+                <div class="col-sm-10">
+                    <input type='text' name="{{postform.start_time.name}}" class="form-control" id='datetimepicker1' />
+                </div>
+                 
+                <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker({
+                        format: 'MM/DD/YYYY HH:mm:ss'
+                    });
+                });
+                 </script>           
+              </div>
+              <!-- 
+               <div class="form-group row">
+                <label for="Date_range" class="col-sm-2 form-control-label">Date range</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="Date_range" placeholder="Date_range" name="{{postform.date_range.name}}">
+                </div>
+              </div>
+              -->
+                <div class="form-group row">
+                <label for="short_description" class="col-sm-2 form-control-label">Short description</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="short_description" placeholder="short_description" name="{{postform.short_description.name}}">
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="long_description" class="col-sm-2 form-control-label">Long description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="{{postform.long_description.name}}" id="long_description" rows="5"></textarea>
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="short_image" class="col-sm-2 form-control-label">Short image</label>
+                <div class="col-sm-10">
+                    <input type="file" name="{{postform.short_image.name}}" class="form-control-file" id="short_image">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="category_id" class="col-sm-2 form-control-label">Category</label>
+                <div class="col-sm-10">
+                   <select class="c-select" id="id_{{postform.category_id.name}}" name="{{postform.category_id.name}}">
+                        {% for category in categorys %}
+                        <option value="{{category.id}}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <hr>
+              <!--add ticket-->
+              <div class="form-group row" style="display:none;">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <input type="text" name="ticketstr" class="form-control-file" id="ticket_str">
+                </div>
+              </div>
+              
+              <div class="form-group row">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <table id = "tickets" data-toggle="table" class="table">
+                        <thead>
+                            <tr>
+                                <th>description</th>
+                                <th>price</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+              </div>
+            
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add ticket</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                              <input type="text" name="ticket_name" class="form-control" id="ticket_name" placeholder="ticket_name">
+                          </td>
+                          <td rowspan="2" style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addticket()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+                      <tr>
+                          <td  style="border-top:0px">
+                             <input type="text" name="price" class="form-control" id="price" placeholder="price">
+                          </td>
+                      </tr>
+
+                  </table>
+  
+                </div>
+              </div>
+              <hr>
+                <!-- more image
+                <div class="form-group row">
+                  <div class="col-sm-6" id="slider-thumbs">
+                    <ul id="show_more_image" class="hide-bullets">
+                   
+                      <li class="col-sm-3">
+                          <a class="thumbnail" id="carousel-selector-0">
+                              <img src="http://placehold.it/150x150&text=zero">
+                          </a>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add more image</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                             <input type="file" name="more_image" class="form-control-file" multiple="" id="more_image">
+                          </td>
+                          <td  style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addimage()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+          
+
+                  </table>
+  
+                </div>
+              </div>
+-->
+             
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">稍后再说</button>
+             <button type="submit" name="postsubmit" class="btn btn-primary">申请</button>
+        </div>
+             
+        </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  
+function addticket(){
+   var ticket_name = document.getElementById('ticket_name').value;
+   var price  = document.getElementById('price').value;
+   var table_ticket = document.getElementById("tickets");
+   var row = table_ticket.insertRow(); 
+   var cell_name = row.insertCell(); 
+   var cell_price = row.insertCell(); 
+   cell_name.innerHTML = ticket_name ;
+   cell_price.innerHTML = price + " $";
+   document.getElementById('ticket_name').value = "";
+   document.getElementById('price').value = "";
+   var ticketstr = document.getElementById('ticket_str').value;
+   if(ticketstr!=''){
+      ticketstr = ticketstr + '@@@' + ticket_name +',' +price ;
+   }else{
+          ticketstr = ticketstr + ticket_name +',' +price ;
+   }
+   document.getElementById('ticket_str').value = ticketstr;
+}
+// function addimage(){
+//     var show_more_image = document.getElementById('show_more_image');
+    
+//     var li = document.createElement("li");
+//     li.className = "col-sm-3";
+//     var a = document.createElement("a");
+//     var img = document.createElement("img");
+//     a.className = 'thumbnail';
+//     li.appendChild(a);
+//     a.appendChild(img);
+//     show_more_image.appendChild(li);
+
+//     var more_image = document.getElementById('more_image');
+//     alert(more_image);
+    
+// }
+</script>
+
+{% endblock %}
+
+{% block modal %}
+{% endblock %}
+
+
