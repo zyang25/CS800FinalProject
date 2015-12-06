@@ -48,7 +48,8 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user_name"><span class="glyphicon glyphicon-user"></span> {{request.user.email}}</a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><span class="glyphicon glyphicon-user"></span><span id="user_name">{{request.user.email}}</span></a>
+
                       <ul class="dropdown-menu">
                         <li><a href="{% url 'accounts.views.user_profile'%}">Edit Profile</a></li>
                         <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Log out</a></li>
@@ -236,10 +237,10 @@
 
 <script type="text/javascript">
 
-console.log($('#user_name').text);
+$(document).ready(function(){
 
 $('#signup-nav').submit(function(e){
-  // $('#signup_email_error').text('')
+
     e.preventDefault();
     check_email();
 });
@@ -248,6 +249,10 @@ $('#login-nav').submit(function(e){
   e.preventDefault();
   check_password();
 });
+
+});
+
+
 </script>
 
 </body>
