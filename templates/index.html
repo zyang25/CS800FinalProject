@@ -34,7 +34,7 @@
         {% for post in postlist %}
           <div class="col-md-4 portfolio-item" style="height:320px;">
               <div style="position:relative;overflow:hidden;width:290px;">
-                <a href="#">
+                <a href="{% url 'checkout'%}">
                     <img  class="img-responsive"    src="{% static post.short_image.name %}" alt="" style="height:200px;width:290px;">
                 </a>
                 <div style="width:290px;background-color:#F2F2F2">

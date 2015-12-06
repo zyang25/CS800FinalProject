@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 from .models import *
@@ -10,3 +11,10 @@ class CheckoutAdmin(admin.ModelAdmin):
 		model = Ticket
 
 admin.site.register(Ticket,CheckoutAdmin)
+
+
+# class userStripeAdmin(admin.ModelAdmin):
+# 	class Meta:
+# 		model = userStripe
+
+# admin.site.register(userStripe, userStripeAdmin)

@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'oauth2_provider',
     'storages',
+    'stripe',
 )
 
 REST_FRAMEWORK = {
@@ -88,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.csrf',
             ],
         },
     },
@@ -162,3 +164,15 @@ AUTHENTICATION_BACKENDS = (
 # Session setting
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+# stripe stuff
+
+#test keys
+STRIPE_PUBLISHABLE_KEY = 'pk_test_kkcPqIP2rwRFuMZ8TiHPX4NK'
+STRIPE_SECRET_KEY = 'sk_test_a2DfPgxm34SnYW5WqNvF3gS9' 
+
+#live keys
+# STRIPE_PUBLISHABLE_KEY = ' pk_live_3vViurZYUGHzAL2xTPqgtLhZ '
+# STRIPE_SECRET_KEY = ' sk_live_h1RqrfzgVNoiG1rGjIztuBi7 '
+

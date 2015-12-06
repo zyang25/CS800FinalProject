@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from web.views import index
+from checkout.views import checkout
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -32,4 +33,6 @@ urlpatterns = [
     url(r'^', include('postManager.urls')),
     # Auth
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^checkout/$', 'checkout.views.checkout',name="checkout"),
+
 ]
