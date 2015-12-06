@@ -6,7 +6,7 @@ from .models import *
 
 # Register your models here.
 class CheckoutAdmin(admin.ModelAdmin):
-	list_display = ["__unicode__"]
+	list_display = ["__unicode__","post_id"]
 	class Meta:
 		model = Ticket
 
