@@ -151,6 +151,14 @@ STATICFILES_DIRS = (
 
 # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', 'AKIAIVDNN3ZKRSE5RJHQ')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY', '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')
+# AWS_STORAGE_BUCKET_NAME = 'wejoin'
+
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 #Authentication backends
