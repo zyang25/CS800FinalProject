@@ -7,7 +7,7 @@
           <h3>欢迎回来, {{request.user.email}}</h3>
           <hr>
           <div class="caption-full">
-            <form class="form-horizontal" method="POST" action=".">
+            <form class="form-horizontal" method="POST" action="{% url 'accounts.views.user_profile' %}">
               {% csrf_token %}
               <fieldset>
                 <!-- Text input-->

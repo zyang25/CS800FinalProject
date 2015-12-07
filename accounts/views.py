@@ -34,7 +34,7 @@ def user_profile(request):
 				}
 				context.update(csrf(request))
 
-		return render_to_response("account_profile.html",context,context_instance=RequestContext(request))
+		return render_to_response("user_profile.html",context,context_instance=RequestContext(request))
 	else:
 		return HttpResponseRedirect("/")
 
