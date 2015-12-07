@@ -6,11 +6,12 @@ from django.core.context_processors import csrf
 from .forms import SignUpForm, LoginForm
 # Model
 from accounts.models import MyUser,UserInfo, UserActivation
+from postManager.models import PostBase
 # Forms
 from accounts.forms import UserProfile
 
 # Create your views here.
-def account_profile(request):
+def user_profile(request):
 	
 	if request.user.is_authenticated():
 		
@@ -55,12 +56,12 @@ def register_confirm(request, activation_key):
 
 @login_required(login_url='/')
 def account_admin(request):
-	template_name = 'account/user_admin.html'
+	template_name = 'user/user_admin.html'
 	return render(request,template_name)
 
 @login_required(login_url='/')
-def account_profile(request):
-	template_name = 'account/user_profile.html'
+def user_profile(request):
+	template_name = 'user/user_profile.html'
 
 	userinfo = UserInfo.objects.get(owner=request.user.pk)
 		
@@ -81,4 +82,24 @@ def account_profile(request):
 			}
 			context.update(csrf(request))
 
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_host(request):
+	template_name = 'user/user_activity_host.html'
+	post_object = PostBase.objects.filter(user_id=request.user)
+	context = {'posts':post_object}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_join(request):
+	template_name = 'user/user_activity_join.html'
+	post_object = PostBase.objects.filter(user_id=request.user)
+	context = {'posts':post_object}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_favorite(request):
+	template_name = 'user/user_activity_favorite.html'
+	context = {}
 	return render(request,template_name,context)
