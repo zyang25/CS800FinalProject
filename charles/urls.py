@@ -17,6 +17,27 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from web.views import index
 
+# Rest
+from rest_framework import routers, serializers, viewsets
+from accounts.models import MyUser
+
+# Serializers define the API representation.
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = MyUser
+        fields = ('url', 'username', 'email', 'is_staff')
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = MyUser.objects.all()
+    serializer_class = UserSerializer
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+
+
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # Page
@@ -35,4 +56,6 @@ urlpatterns = [
     url(r'^', include('postManager.urls')),
     # Auth
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # Api
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
