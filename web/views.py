@@ -12,6 +12,7 @@ from django.views.generic import View
 from accounts.models import MyUser, UserActivation, UserInfo
 from postManager.models import PostBase
 from postManager.models import Category
+from checkout.models import Ticket
 #Forms
 from accounts.forms import SignUpForm, LoginForm
 from postManager.forms import PostForm
@@ -43,6 +44,13 @@ def index(request):
 	difftime = []
 
 	for _post in postlist:
+		ticket = Ticket.objects.filter(post_id = _post.pk)
+		if len(ticket) > 0:
+			_post.ticket = ticket[0].price
+		else:
+			_post.ticket = 0
+
+
 		_post.expire_time = (_post.start_time - now).days
 		_post.expire_type = 'day'
 		if _post.expire_time == 0:

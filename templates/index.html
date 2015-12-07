@@ -32,9 +32,9 @@
      
     <div class="row">
         {% for post in postlist %}
-          <div class="col-md-4 portfolio-item" style="height:320px;">
+          <div class="col-md-3 portfolio-item" style="height:320px;">
               <div style="position:relative;overflow:hidden;width:290px;">
-                <a href="#">
+                <a href="{% url 'checkout'%}">
                     <img  class="img-responsive"    src="{% static post.short_image.name %}" alt="" style="height:200px;width:290px;">
                 </a>
                 <div style="width:290px;background-color:#F2F2F2">
@@ -49,19 +49,19 @@
                     </div>
                     <div class="price" style="text-align:right;">
                         <sup class="superscript">$</sup>
-                        <span class="plan-price">15&nbsp;&nbsp;&nbsp;</span>
+                        <span class="plan-price" style="color:#4ac948">{{post.ticket}}&nbsp;&nbsp;&nbsp;</span>
                     
                     </div>
                     
                   </div>
                 {% if post.expire_time > 0 and post.expire_type == 'day'%}
-                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
                {% elif post.expire_time  > 0 and post.expire_type == 'hour'%}
-                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
                {% elif post.expire_time  > 0 and post.expire_type == 'min'%}
-                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">还剩下{{ post.expire_time }} 分钟</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">还剩下{{ post.expire_time }} 分钟</span>
                {% else %}
-                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#428bca;opacity:0.85;color:white">已过期</span>
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">已过期</span>
                {% endif %}
             </div>
             </div>

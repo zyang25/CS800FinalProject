@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from web.views import index
+from checkout.views import checkout
 
 # Rest
 from rest_framework import routers, serializers, viewsets
@@ -58,4 +59,6 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     # Api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # Checkout
+    url(r'^checkout/$', 'checkout.views.checkout',name="checkout"),
 ]
