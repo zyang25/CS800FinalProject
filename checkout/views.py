@@ -39,7 +39,7 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @login_required(login_url='/')
-def checkout(request):
+def checkout(request, activity_id):
 	publishKey = settings.STRIPE_PUBLISHABLE_KEY
 	customer_id = request.user.userstripe.stripe_id
 	if request.method == 'POST':

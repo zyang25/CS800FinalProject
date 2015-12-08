@@ -60,5 +60,6 @@ urlpatterns = [
     # Api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # Checkout
-    url(r'^checkout/$', 'checkout.views.checkout',name="checkout"),
+    url(r'^activity/(?P<activity_id>[0-9]+)/$', 'checkout.views.checkout',name="activity_detail"),
+
 ]
