@@ -63,8 +63,3 @@ def checkout(request, activity_id):
 	template = 'details_tpl.html'
 	return render(request, template, context)
 
-@login_required(login_url='/')
-def activity_detail(request,activity_id):
-	template_name = 'activity_detail.html'
-	context = {}
-	return render(request,template_name,context)
