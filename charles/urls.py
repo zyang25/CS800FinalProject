@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'^accounts/confirm/(?P<activation_key>\w+)/$', 'accounts.views.register_confirm',name="confirm_activation"),
     # Post
     url(r'^', include('postManager.urls')),
-    url(r'^activity/(?P<activity_id>[0-9]+)$', 'checkout.views.checkout',name="activity_detail"),
+    url(r'^activity/(?P<activity_id>[0-9]+)$', 'checkout.views.activity_detail',name="activity_detail"),
     # Auth
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     # Api
