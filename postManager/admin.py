@@ -19,6 +19,12 @@ class MoreImgAdmin(admin.ModelAdmin):
     class Meta:
         model = MoreImg
 
+class MessageBoardAdmin(admin.ModelAdmin):
+    list_display = ["__unicode__","post_id","message"]
+    class Meta:
+        model = MessageBoard
+
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(PostBase,PostBaseAdmin)
 admin.site.register(MoreImg,MoreImgAdmin)
+admin.site.register(MessageBoard,MessageBoardAdmin)

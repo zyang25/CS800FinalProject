@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 from pygments.lexers import get_all_lexers
 from pygments.styles import get_all_styles
@@ -38,6 +37,13 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+class MessageBoard(models.Model):
+    post_id = models.ForeignKey('PostBase',null=True)
+    user_id = models.ForeignKey('accounts.MyUser',null=True)
+    message = models.CharField(max_length=63)
+    is_active = models.BooleanField(default=True)
+    def __unicode__(self):
+        return u'%s' % (self.id)
     
 class Meta:
     app_label = "postManager"
