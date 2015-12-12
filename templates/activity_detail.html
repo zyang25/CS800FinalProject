@@ -1,0 +1,306 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+<!--Custom css-->
+{% block customcss %}
+
+{% endblock %}
+<!--Custom css-->
+
+
+{% block title %}Wejoin{% endblock %}
+
+<!-- Post content -->
+{% block post_content_index %}
+
+<div class="container">
+  
+    <div class="row carousel-holder">
+
+                    <div class="col-md-12">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img class="slide-image" src="{% static postObject.short_image.name %}" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                </div>
+                                <div class="item">
+                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+   <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover" border="0">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                 {% for ticket in tickets %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><span>{{ticket.ticket_descrption}}</span></h4>
+                                </br>
+                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-1 col-md-2" style="text-align: center">
+                          <input id="amount" type="text" value="0" name="amount">
+                              <script>
+                                  $("input[name='amount']").TouchSpin({
+                                     min: 0,
+                                     max: 100,
+                                  });
+                              </script>
+                        </td>
+                        <td class="col-sm-1 col-md-2 text-center"><strong name = "price">${{ticket.price}}</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong name = "total">$0.00</strong></td>
+                        
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong name="Subtotal">$0.00</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Tax</h5></td>
+                        <td class="text-right"><h5><strong name="Tax">$0.00</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong name="Total">$0.00</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                        <button type="button" class="btn btn-success">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+   $("input[name='amount']").on('change', 
+    function () {
+        var amount = $("input[name='amount']");
+        var price = $("strong[name='price']");
+        var total = $("strong[name='total']");
+        var Subtotal = 0.00;
+        for(var i=0;i<amount.length;i++){
+           var _price = price[i].innerHTML.substring(1,price[i].innerHTML.length);
+           total[i].innerHTML = "$" + changeTwoDecimal_f(_price * amount[i].value) ;
+           Subtotal = Subtotal +  _price * amount[i].value;
+        }
+       
+        $("strong[name='Subtotal']")[0].innerHTML = "$" + changeTwoDecimal_f(Subtotal) ;
+        $("strong[name='Tax']")[0].innerHTML = "$" + changeTwoDecimal_f(Subtotal *0.09) ;
+        $("strong[name='Total']")[0].innerHTML = "$" + changeTwoDecimal_f(Subtotal *1.09) ;
+         
+    ;});
+
+   function changeTwoDecimal_f(x) {
+    var f_x = parseFloat(x);
+    if (isNaN(f_x)) {
+        alert('function:changeTwoDecimal->parameter error');
+        return false;
+    }
+    var f_x = Math.round(x * 100) / 100;
+    var s_x = f_x.toString();
+    var pos_decimal = s_x.indexOf('.');
+    if (pos_decimal < 0) {
+        pos_decimal = s_x.length;
+        s_x += '.';
+    }
+    while (s_x.length <= pos_decimal + 2) {
+        s_x += '0';
+    }
+    return s_x;
+}
+
+</script>
+<div class = 'row'>
+  <div class = 'col-sm-4 col-sm-offset-4'>
+
+
+    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Buy Now</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+<!--               <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+              <!-- <table>
+                <tr>
+                  <td><h4 class="modal-title">Complete Your Payment</h4><td>
+                  <td><img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png"></td>
+                </tr>
+              </table> -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Complete Your Payment</h4>
+            </div>
+
+            <div class="modal-body">
+
+              <form class='form' action="" method="POST" id="payment-form">{% csrf_token %}
+                <span class="payment-errors"></span>
+
+
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="form-group">                        
+                        <label for="cardNumber">CARD HOLDER'S NAME</label>
+                        <div class="input-group">
+                            
+                            <input 
+                                type="text"
+                                class="form-control"
+                                name="cardName"
+                                size="20"
+                                data-stripe="name"
+                                placeholder="Name on Card"
+                                autocomplete="cc-name"
+                                required autofocus 
+                            />
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            
+                        </div>
+                        
+                    </div>                            
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="form-group">                        
+                        <label for="cardNumber">CARD NUMBER</label>
+                        <div class="input-group">
+                            
+                            <input 
+                                type="text"
+                                class="form-control"
+                                name="cardNumber"
+                                size="20"
+                                data-stripe="number"
+                                placeholder="Valid Card Number"
+                                autocomplete="cc-number"
+                                required autofocus 
+                            />
+                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                            
+                        </div>
+                        <img class="img-responsive" width="50%" src="http://i76.imgup.net/accepted_c22e0.png">
+                    </div>                            
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-xs-7 col-md-7">
+                      <div class="form-group">
+                          <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                          <div class="input-group">
+
+                          <input 
+                              type="text" 
+                              class="form-control"
+                              name="cardExpiryMM"
+                              size="2" 
+                              data-stripe="exp-month"
+                              placeholder="MM"
+                              autocomplete="cc-exp"
+                              required 
+                          />
+                          <span class="input-group-btn">/</span>
+                          <input 
+                              type="text" 
+                              name="cardExpiryYY"
+                              class="form-control"
+                              size="4" 
+                              data-stripe="exp-year"
+                              placeholder="YYYY"
+                              autocomplete="cc-exp"
+                              required 
+                          />
+                          <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-5 col-md-5 pull-right">
+                    <div class="form-group">
+                        <label for="cardCVC">CVC</label>
+                        <div class="input-group">
+                          <input 
+                              type="text" 
+                              class="form-control"
+                              name="cardCVC"
+                              Size="4"
+                              data-stripe="cvc"
+                              placeholder="CVC"
+                              autocomplete="cc-csc"
+                              required
+                          />
+                          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button class= 'btn btn-success btn-lg btn-block' type="submit">PAY</button>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block message_board %}
+<div class="row">
+
+</div>
+{% endblock %}

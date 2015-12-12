@@ -1,253 +1,376 @@
 {% extends "base/base.html" %}
 {% load staticfiles %}
 
+<!--Custom css-->
+{%block css %}
+<link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">   
+{%endblock%}
+<!--Custom css-->
+
 {% block title %}Wejoin{% endblock %}
-
-
-{% block nav_bar_index %}
-
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-	<div class="navbar-header">
-	<a class="navbar-brand" href="/">Wejoin</a>
-	</div>
-
-	<div>
-		<ul class="nav navbar-nav navbar-right">
-		{% if request.user.is_anonymous %}  
-		  <!-- Sign up drop down -->
-		  <li class="dropdown">
-		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>Sign Up <b class="caret"></b></a>
-		    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-		      <li>
-		        <div class="row">
-		          <div class="col-md-12">
-
-		            <form data-toggle="validator" class="form" role="form" method="post" action="" accept-charset="UTF-8" id="signup-nav" >
-		            {% csrf_token %} 
-		            	
-		            	<div class="form-group has-feedback">
-						  <label class="control-label" for="signup_{{ signupform.email.name }}">{{ signupform.email.label }}</label>
-						  <input type="email" class="form-control"
-						         name="{{ signupform.email.name }}"
-						         id="signup_{{ signupform.email.name }}"
-						         value="" required> 
-						        <p class="help-text">{{ field.help_text }} </p>
-						   <span class="glyphicon form-control-feedback" aria-hidden="true" id="signup_email_error"></span>
-						</div>
-
-						<div class="form-group has-feedback">
-						  <label class="control-label" for="signup_{{ signupform.password.name }}">{{ signupform.password.label }}</label>
-						  <input type="password" class="form-control"
-						         name="{{ signupform.password.name }}"
-						         id="signup_{{ signupform.password.name }}"
-						         value="" 
-								 data-minlength="8"
-								 data-maxlength="16"
-						         required> 
-						  <span class="help-block with-errors"></span>
-						  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-						</div>
-
-						<div class="form-group" has-feedback>
-						  <label class="control-label" for="signup_comfirmed_password">Confirmed</label>
-						  <input type="password" class="form-control"
-						         name="confirmedpass"
-						         id="signup_comfirmed_password"
-						         data-match="#signup_{{ signupform.password.name }}"
-						         data-match-error="Password don't match"
-						         required> 
-						        <div class="help-block with-errors"></div>
-						</div>
-
-						<div class="form-group">
-		                	<button type="submit" id="signupsubmitid" name="signup_submit" class="btn btn-success btn-block">Sign up</button>
-		              	</div>
-					    <span>{{ signupform.errors }}</span>
-		            </form>  
-		          </div>
-		        </div>
-		      </li>
-		    </ul>
-		  </li>
-	  
-		  <!-- Log in drop down -->
-		  <li class="dropdown">
-		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span>Log in <b class="caret"></b></a>
-		    <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-		      <li>
-		        <div class="row">
-		          <div class="col-md-12">
-		            
-					<form data-toggle="validator" class="form" role="form" method="post" action="." accept-charset="UTF-8" id="login-nav">
-						{% csrf_token %}             	
-		            	
-		            	<div class="form-group has-feedback">
-						  <label class="control-label" for="login_{{ loginform.email.name }}">{{ loginform.email.label }}</label>
-						  <input type="email" class="form-control"
-						         name="{{ loginform.email.name }}"
-						         id="login_{{ loginform.email.name }}"
-						         value="" required> 
-						        <p class="help-text">{{ field.help_text }} </p>
-						   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-						</div>
-
-						<div class="form-group has-feedback">
-						  <label class="control-label" for="login_{{ loginform.password.name }}">{{ loginform.password.label }}</label>
-						  <input type="password" class="form-control"
-						         name="{{ loginform.password.name }}"
-						         id="login_{{ loginform.password.name }}"
-						         value="" 
-								 data-minlength="8"
-								 data-maxlength="16"
-						         required> 
-						  <span class="help-block with-errors"></span>
-						  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-						</div>
-
-		              	<div class="form-group">
-		                	<button type="submit" name="login_submit" class="btn btn-success btn-block">Login</button>
-		              	</div>
-
-		              	<span>{{ loginform.errors }}</span>
-		            </form>	
-						
-		              
-		          </div>
-		        </div>
-		      </li>
-		    </ul>
-		  </li>  
-	 </div>
-	{% endif %}
-</nav>
-
-{% endblock %}
 
 {% block carousel_index %}
 
+<!-- Half Page Image Background Carousel Header -->
+<header id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for Slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <!-- Set the first background image using inline CSS below. -->
+            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
+            <div class="carousel-caption">
+                <h2>Caption 1</h2>
+            </div>
+        </div>
+        <div class="item">
+            <!-- Set the second background image using inline CSS below. -->
+            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+            <div class="carousel-caption">
+                <h2>Caption 2</h2>
+            </div>
+        </div>
+        <div class="item">
+            <!-- Set the third background image using inline CSS below. -->
+            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+            <div class="carousel-caption">
+                <h2>Caption 3</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+
+</header>
+
+<!-- Script to Activate the Carousel -->
+<script>
+$('.carousel').carousel({
+    interval: 5000 //changes the speed
+})
+</script>
 {% endblock %}
 
+
+
+<!-- Test block -->
 {% block test %}
 
-{% if signupform.errors %}
-	<h1>ERRORRRRRR same email again???</h1>
-{% endif %}
+{% endblock %}
 
-<form action="." method="POST">
-{% csrf_token %}
-{{ signupform.as_p }}
-<input type="submit" name="signup_submit">
-</form>
-
-{% if request.user.is_authenticated %}
-
-<div style="text-align:center;">
-	<h1>Hello, {{ user.email }}</h1>
-	<h5><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Logout here.</a></h5>
+{% block post_content_index %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Join now
+                <small> 留学生活有你更精彩</small>
+            </h1>
+        </div>
+    </div>
+     
+    <div class="row">
+        {% for post in postlist %}
+          <div class="col-md-3 portfolio-item" style="height:320px;">
+              <div style="position:relative;overflow:hidden;width:290px;">
+                <a href="{% url 'activity_detail' post.pk %}">
+                    <img  class="img-responsive"    src="{% static post.short_image.name %}" alt="" style="height:200px;width:290px;">
+                </a>
+                <div style="width:290px;background-color:#F2F2F2">
+                    <div style="height:14px"></div>
+                    <div>
+                        <span style="color:#333;margin:15px;font-size:15px;color:#888;">{{post.short_description}}</span>
+                    </div>
+                    <div style="height:14px;">
+                    </div>
+                    <div style="height:25px;text-align: center;">
+                        <span class="label label-default">{{post.start_time}}</spanp>
+                    </div>
+                    <div class="price" style="text-align:right;">
+                        <sup class="superscript">$</sup>
+                        <span class="plan-price" style="color:#4ac948">{{post.ticket}}&nbsp;&nbsp;&nbsp;</span>
+                    
+                    </div>
+                    
+                  </div>
+                {% if post.expire_time > 0 and post.expire_type == 'day'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white"> 还剩下{{ post.expire_time }} 天</span>
+               {% elif post.expire_time  > 0 and post.expire_type == 'hour'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">还剩下{{ post.expire_time }} 小时</span>
+               {% elif post.expire_time  > 0 and post.expire_type == 'min'%}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">还剩下{{ post.expire_time }} 分钟</span>
+               {% else %}
+                    <span style="position:absolute;padding:0 19px 0 80px;right:-25px;text-align:center;top:0;transform:rotate(38deg);backgroud-color:#d34332;background-color:#4ac948;opacity:0.85;color:white">已过期</span>
+               {% endif %}
+            </div>
+            </div>
+         {% endfor %}
+    </div>
+    <hr>
+    <!-- Pagination -->
+   
+            <div class="row text-center">
+            <div class="col-lg-12">
+                <div class="pagination">
+                <li>
+                    {% if postlist.has_previous %}
+                     <a href="?page={{ postlist.previous_page_number }}">&laquo;</a>
+                    {% else %}
+                    <a href="#">&laquo;</a>
+                    {% endif %}
+                </li>
+               
+                {% for page in postlist.paginator.page_range%}
+                    
+                {% if postlist.number != page %}
+                <li>
+                    <a href="?page={{ page }}">{{page}}</a>
+                </li>
+                {% else %}
+                <li class="active">
+                    <a href="?page={{ page }}">{{page}}</a>
+                </li>
+                {% endif %}
+                   
+                {%endfor%}
+                <li>
+                    {% if postlist.has_next %}
+                    <a href="?page={{ postlist.next_page_number }}">&raquo;</a>
+                    {% else %}
+                    <a href="#">&raquo;</a>
+                    {% endif %}
+                </li>
+                </div>
+            </div>
+                <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"> 加入我们</button>
+        </div>
+    
 </div>
 
-{% if not request.user.is_active %}
-<div style="text-align:center;">
-	<h5>Please activate your account.</h5>
+<!-- Modal joinus -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">加入我们</h4>
+        </div>
+        <div class="modal-body">
+           <form  method="post" id="postform" action="." name="postform" enctype="multipart/form-data">
+               {% csrf_token %}
+                <!--  basic post info-->
+               <div class="form-group row">
+                    <label for="title" class="col-sm-2 form-control-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="{{ postform.title.name }}" class="form-control" id="title" placeholder="title">
+                    </div>
+              </div>
+               <div class="form-group row">
+                    <label for="loaction" class="col-sm-2 form-control-label">Loaction</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="loaction" placeholder="loaction" name="{{ postform.location.name }}">
+                    </div>
+              </div>
+               <div class="form-group row">
+                <label for="start_time" class="col-sm-2 form-control-label">Start time</label>
+                <div class="col-sm-10">
+                    <input type='text' name="{{postform.start_time.name}}" class="form-control" id='datetimepicker1' />
+                </div>
+                 
+                <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker({
+                        format: 'MM/DD/YYYY HH:mm:ss'
+                    });
+                });
+                 </script>           
+              </div>
+              <!-- 
+               <div class="form-group row">
+                <label for="Date_range" class="col-sm-2 form-control-label">Date range</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="Date_range" placeholder="Date_range" name="{{postform.date_range.name}}">
+                </div>
+              </div>
+              -->
+                <div class="form-group row">
+                <label for="short_description" class="col-sm-2 form-control-label">Short description</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="short_description" placeholder="short_description" name="{{postform.short_description.name}}">
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="long_description" class="col-sm-2 form-control-label">Long description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="{{postform.long_description.name}}" id="long_description" rows="5"></textarea>
+                </div>
+              </div>
+               <div class="form-group row">
+                <label for="short_image" class="col-sm-2 form-control-label">Short image</label>
+                <div class="col-sm-10">
+                    <input type="file" name="{{postform.short_image.name}}" class="form-control-file" id="short_image">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="category_id" class="col-sm-2 form-control-label">Category</label>
+                <div class="col-sm-10">
+                   <select class="c-select" id="id_{{postform.category_id.name}}" name="{{postform.category_id.name}}">
+                        {% for category in categorys %}
+                        <option value="{{category.id}}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+              </div>
+              <hr>
+              <!--add ticket-->
+              <div class="form-group row" style="display:none;">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <input type="text" name="ticketstr" class="form-control-file" id="ticket_str">
+                </div>
+              </div>
+              
+              <div class="form-group row">
+                <label for="ticket" class="col-sm-2 form-control-label">Tickets</label>
+                <div class="col-sm-10">
+                    <table id = "tickets" data-toggle="table" class="table">
+                        <thead>
+                            <tr>
+                                <th>description</th>
+                                <th>price</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+              </div>
+            
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add ticket</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                              <input type="text" name="ticket_name" class="form-control" id="ticket_name" placeholder="ticket_name">
+                          </td>
+                          <td rowspan="2" style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addticket()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+                      <tr>
+                          <td  style="border-top:0px">
+                             <input type="text" name="price" class="form-control" id="price" placeholder="price">
+                          </td>
+                      </tr>
+
+                  </table>
+  
+                </div>
+              </div>
+              <hr>
+                <!-- more image
+                <div class="form-group row">
+                  <div class="col-sm-6" id="slider-thumbs">
+                    <ul id="show_more_image" class="hide-bullets">
+                   
+                      <li class="col-sm-3">
+                          <a class="thumbnail" id="carousel-selector-0">
+                              <img src="http://placehold.it/150x150&text=zero">
+                          </a>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+               <div class="form-group row">
+                <label for="ticket_name" class="col-sm-2 form-control-label">add more image</label>
+                <div class="col-sm-10">
+                  <table border="0"  data-toggle="table" class="table" >
+                      <tr>
+                          <td style="border-top:0px"> 
+                             <input type="file" name="more_image" class="form-control-file" multiple="" id="more_image">
+                          </td>
+                          <td  style ="text-align:center;border-top:0px;padding-top:30px;">
+                            <button  type="button" onclick="addimage()" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true">添加</span>
+                            </button>
+                          </td>
+
+                      </tr>
+          
+
+                  </table>
+  
+                </div>
+              </div>
+-->
+             
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">稍后再说</button>
+             <button type="submit" name="postsubmit" class="btn btn-primary">申请</button>
+        </div>
+             
+        </form>
+    </div>
+  </div>
 </div>
-{% endif %}
-
-{% endif %}
-
-
-<script>
-
-
-// $('#signup-nav').on('submit', function(event){
-// 	event.preventDefault();
-//     console.log("form submitted!")  // sanity check
-//     if (check_email()){
-//     	$('#signup-nav').submit();
-//     }
-
-// });
-
-function email_check_result(){
-	if(check_email()){
-		return true;
-	}else{
-		return false;
-	}
+<script type="text/javascript">
+  
+function addticket(){
+   var ticket_name = document.getElementById('ticket_name').value;
+   var price  = document.getElementById('price').value;
+   var table_ticket = document.getElementById("tickets");
+   var row = table_ticket.insertRow(); 
+   var cell_name = row.insertCell(); 
+   var cell_price = row.insertCell(); 
+   cell_name.innerHTML = ticket_name ;
+   cell_price.innerHTML = price + " $";
+   document.getElementById('ticket_name').value = "";
+   document.getElementById('price').value = "";
+   var ticketstr = document.getElementById('ticket_str').value;
+   if(ticketstr!=''){
+      ticketstr = ticketstr + '@@@' + ticket_name +',' +price ;
+   }else{
+          ticketstr = ticketstr + ticket_name +',' +price ;
+   }
+   document.getElementById('ticket_str').value = ticketstr;
 }
-
-function check_email() {
+// function addimage(){
+//     var show_more_image = document.getElementById('show_more_image');
     
-    console.log("Checking...") // sanity check
+//     var li = document.createElement("li");
+//     li.className = "col-sm-3";
+//     var a = document.createElement("a");
+//     var img = document.createElement("img");
+//     a.className = 'thumbnail';
+//     li.appendChild(a);
+//     a.appendChild(img);
+//     show_more_image.appendChild(li);
+
+//     var more_image = document.getElementById('more_image');
+//     alert(more_image);
     
-    // Get csrftoken Setup Ajax
-	    function getCookie(name) {
-	    var cookieValue = null;
-		    if (document.cookie && document.cookie != '') {
-		        var cookies = document.cookie.split(';');
-		        for (var i = 0; i < cookies.length; i++) {
-		            var cookie = jQuery.trim(cookies[i]);
-		            // Does this cookie string begin with the name we want?
-		            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-		                break;
-		            }
-		        }
-		    }
-	    return cookieValue;
-		}
-		var csrftoken = getCookie('csrftoken');
-		$.ajaxSetup({
-	    beforeSend: function(xhr, settings) {
-	        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	            // Only send the token to relative URLs i.e. locally.
-	            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	        }
-	    }
-		});
-	// Get csrftoken
-
-
-	console.log(csrftoken) // sanity check
-
-    $.ajax({
-        url : ".", // the endpoint
-        type : "POST", // http method
-        data : {
-        emailcheck : $('#signup_email').val()
-        }, // data sent with the post request
-        success: function(res, status, xhr) { 
-        	if(res=="OK"){
-        		console.log("Fire");
-        		return true;
-        	}else{
-        		console.log("Bad");
-        		return false;
-        	}	
-  		},
-    	error: function (request, status, error) {
-        	alert(request.responseText);
-   		},
-    });
-};
-
-
-
+// }
 </script>
 
-
-{% if request.user.is_poster %}
-<h1>You are a poster.</h1>
-{% endif %}
-
-
 {% endblock %}
 
-{% block custom_script %}
-<script src="{% static "js/validator.min.js" %}"></script>
+{% block modal %}
 {% endblock %}
-
-
-
 
 

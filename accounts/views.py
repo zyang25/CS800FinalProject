@@ -1,109 +1,121 @@
-#Django
-from django.conf import settings
-from django.shortcuts import render, render_to_response, RequestContext, redirect
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.http import *
+from django.shortcuts import render_to_response, RequestContext, render
+from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
-from django.views.generic.base import TemplateView
-from django.template import Context, loader
-from django.contrib.auth import authenticate, login as auth_login
-from django.core.mail import send_mail
-#Models
-from .models import MyUser, UserActivation
 #Forms
-from .forms import SignUpForm, LoginForm
-#Email
-import hashlib, datetime, random
+from .forms import SignUpForm, LoginForm, PasswordUpdateForm
+# Model
+from accounts.models import MyUser,UserInfo, UserActivation
+from postManager.models import PostBase
+# Forms
+from accounts.forms import UserProfile
 
 # Create your views here.
-
-def account_index(request):
+def user_profile(request):
 	
-	signup = SignUpForm(request.POST or None)
-	login = LoginForm(request.POST or None)
+	if request.user.is_authenticated():
+		
+		userinfo = UserInfo.objects.get(owner=request.user.pk)
+		
+		context = {
+		'user_info':userinfo,
+		}
 
-	context = {
-	'signupform': signup,
-	'loginform':login,
-	}
-	context.update(csrf(request))
+		if request.method == 'POST':
+			userprofileform = UserProfile(request.POST or None)
+			print userprofileform
+			if userprofileform.is_valid():
+				newprofile = userprofileform.save(commit=False)
+				newprofile.owner = request.user
+				newprofile.save()
+				userinfo = UserInfo.objects.get(owner=request.user.pk)
+				context = {
+				'user_info':userinfo,
+				}
+				context.update(csrf(request))
 
-	print request.POST
-
-	if request.method == 'POST':
-		if 'emailcheck' in request.POST:
-			emailcheck = request.POST.get('emailcheck', False)
-			u = MyUser.objects.filter(email=emailcheck).count()
-			if u !=0:
-				res = "Bad";
-				print "BAD"
-			else:
-				res = "OK"
-				print "OK"
-			return HttpResponse(res)
-
-		if 'signup_submit' in request.POST:
-			if signup.is_valid():
-				print 'You are in signup post'
-				signup.save()
-				# Key salt
-				email = signup.cleaned_data['email']
-				salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
-				activation_key = hashlib.sha1(salt+email).hexdigest()            
-				key_expires = datetime.datetime.today() + datetime.timedelta(2)
-
-				#Get user by email
-				user=MyUser.objects.get(email=email)
-
-				# Create and save user profile                                                                                                                                  
-				new_profile = UserActivation(user=user, activation_key=activation_key, 
-				key_expires=key_expires)
-				new_profile.save()
-
-				# Send email with activation key
-				email_subject = 'Wejoin Account Confirmation'
-				email_body = "Hello %s, thanks for signing up. To activate your account, click this link within \
-				48hours http://127.0.0.1:8000/accounts/confirm/%s" % (email, activation_key)
-				from_email = settings.EMAIL_HOST_USER
-				to_list = [email, settings.EMAIL_HOST_USER]
-				send_mail(email_subject, email_body,from_email,to_list, fail_silently=False)
-
-			else:
-				print signup.is_valid()   #form contains data and errors
-        		print signup.errors
-
-		elif 'login_submit' in request.POST:
-			if login.is_valid():
-				print "You are in login post"
-				print request.POST
-				email = login.cleaned_data['email']
-				password = login.cleaned_data['password']
-				print email,password
-				user = authenticate(email=email, password=password)
-				if user is not None:
-					if user.is_active:	
-						auth_login(request, user)
-						print("User is valid, active and authenticated")
-				else:
-					print("User is not valid.")
-	print request.user
-	return render_to_response("index.html",context,context_instance=RequestContext(request))
+		return render_to_response("user_profile.html",context,context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect("/")
 
 def register_confirm(request, activation_key):
-	print "You are in register_confirm"
-	print activation_key
-    #check if user is already logged in and if he is redirect him to some other url, e.g. home
-    # if request.user.is_authenticated():
-    #     HttpResponseRedirect('/home')
+	
 	try:
 		user_activation = UserActivation.objects.get(activation_key__exact=activation_key)
 	except:
 		return HttpResponseNotFound('<center><h1>Error 404<br>Page not found</h1></center>')
-	print user_activation
-    #check if the activation key has expired, if it hase then render confirm_expired.html
-    # if user_activation.key_expires < timezone.now():
-    #     return render_to_response('user_profile/confirm_expired.html')
-    #if the key hasn't expired save user and set him as active and render some template to confirm activation
+	
+	# Get User instance
 	user = MyUser.objects.get(email__exact=user_activation)
 	user.is_vertified = True
 	user.save()
-	return render_to_response('activation_confirm.html')
+	
+	# Delete it
+	user_activation.delete()
+	return HttpResponse('<center><h1>Account activated<br></h1></center>')
+
+@login_required(login_url='/')
+def account_admin(request):
+	template_name = 'user/user_admin.html'
+	return render(request,template_name)
+
+@login_required(login_url='/')
+def user_profile(request):
+	template_name = 'user/user_profile.html'
+
+	userinfo = UserInfo.objects.get(owner=request.user.pk)
+		
+	context = {
+	'user_info':userinfo,
+	}
+
+	if request.method == 'POST':
+		userprofileform = UserProfile(request.POST or None)
+		print userprofileform
+		if userprofileform.is_valid():
+			newprofile = userprofileform.save(commit=False)
+			newprofile.owner = request.user
+			newprofile.save()
+			userinfo = UserInfo.objects.get(owner=request.user.pk)
+			context = {
+			'user_info':userinfo,
+			}
+			context.update(csrf(request))
+
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_host(request):
+	template_name = 'user/user_activity_host.html'
+	post_object = PostBase.objects.filter(user_id=request.user)
+	context = {'posts':post_object}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_join(request):
+	template_name = 'user/user_activity_join.html'
+	post_object = PostBase.objects.filter(user_id=request.user)
+	context = {'posts':post_object}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_activity_favorite(request):
+	template_name = 'user/user_activity_favorite.html'
+	context = {}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_change_password(request):
+	template_name = 'user/user_change_password.html'
+	user = MyUser.objects.get(email__exact=request.user.email)
+	context = {}
+
+	if request.method == 'POST':
+		if 'update_password_sumit' in request.POST:
+			pf = PasswordUpdateForm(request.POST or None, request=request)
+			if pf.is_valid():
+				context={"message":"Ya, you change your password successfully!"}
+			else:
+				context={"message":pf.non_field_errors}
+
+	return render(request,template_name,context)

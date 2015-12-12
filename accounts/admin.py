@@ -2,9 +2,11 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
+
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from accounts.models import MyUser, UserActivation
+
+from accounts.models import MyUser, UserActivation, UserInfo, userStripe
 
 
 class UserCreationForm(forms.ModelForm):
@@ -81,12 +83,18 @@ class MyUserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+class userStripeAdmin(admin.ModelAdmin):
+    class Meta:
+        model = userStripe
+
+admin.site.register(userStripe, userStripeAdmin)
 
 
 
 # Now register the new UserAdmin...
 admin.site.register(MyUser,MyUserAdmin)
 admin.site.register(UserActivation)
+admin.site.register(UserInfo)
 # admin.site.register(UserProfile,MyUserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.

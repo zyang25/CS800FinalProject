@@ -44,8 +44,26 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'web',
     'accounts',
+    'checkout',
+    'postManager',
+    'rest_framework',
+    'oauth2_provider',
+    'storages',
+    'stripe',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('oauth2_provider.ext.rest_framework.OAuth2Authentication', ),
+    'PAGE_SIZE': 10
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.csrf',
             ],
         },
     },
@@ -95,27 +114,66 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
+DATE_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S', # '2006-10-25 14:30:59'
+    '%Y-%m-%d %H:%M',       # '2006-10-25 14:30'
+    '%Y-%m-%d',             # '2006-10-25'
+    '%m/%d/%Y %H:%M:%S',    # '10/25/2006 14:30:59'
+    '%m/%d/%Y %H:%M',       # '10/25/2006 14:30'
+    '%m/%d/%Y',             # '10/25/2006'
+    '%m/%d/%y %H:%M:%S',    # '10/25/06 14:30:59'
+    '%m/%d/%y %H:%M',       # '10/25/06 14:30'
+    '%m/%d/%y'              # '10/25/06'
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static','static_root')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static_dirs"),
 )
 
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', 'AKIAJO7XZVYCRFIQ6RDQ')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY', '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')
+# AWS_STORAGE_BUCKET_NAME = 'wejoinbob'
+
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
+
 AUTH_USER_MODEL = 'accounts.MyUser'
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
-'accounts.backends.EmailAuthBackend',
+# 'accounts.backends.EmailAuthBackend',
 'django.contrib.auth.backends.ModelBackend',
 )
+
+# Session setting
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+# stripe stuff
+
+#test keys
+STRIPE_PUBLISHABLE_KEY = 'pk_test_kkcPqIP2rwRFuMZ8TiHPX4NK'
+STRIPE_SECRET_KEY = 'sk_test_a2DfPgxm34SnYW5WqNvF3gS9' 
+
+#live keys
+# STRIPE_PUBLISHABLE_KEY = ' pk_live_3vViurZYUGHzAL2xTPqgtLhZ '
+# STRIPE_SECRET_KEY = ' sk_live_h1RqrfzgVNoiG1rGjIztuBi7 '
+

@@ -1,0 +1,317 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+<!--Custom css-->
+{% block customcss %}
+
+{% endblock %}
+<!--Custom css-->
+
+
+{% block title %}Wejoin{% endblock %}
+
+{% block carousel_index %}
+
+{% endblock %}
+
+<!-- Test block -->
+{% block test %}
+
+{% endblock %}
+
+
+<!-- Stripe JS -->
+{% block script %}
+<script type="text/javascript">
+  // This identifies your website in the createToken call below
+  Stripe.setPublishableKey('{{ publishKey }}');
+  function stripeResponseHandler(status, response) {
+  var $form = $('#payment-form');
+
+  if (response.error) {
+    // Show the errors on the form
+    $form.find('.payment-errors').text(response.error.message);
+    $form.find('button').prop('disabled', false);
+  } else {
+    // response contains id and card, which contains additional card details
+    var token = response.id;
+    // Insert the token into the form so it gets submitted to the server
+    $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+    // and submit
+    $form.get(0).submit();
+  }
+};
+</script>
+
+
+{% endblock %}
+
+
+<!-- Stripe JQuery -->
+{% block jquery %}
+jQuery(function($) {
+  $('#payment-form').submit(function(event) {
+    var $form = $(this);
+
+    // Disable the submit button to prevent repeated clicks
+    $form.find('button').prop('disabled', true);
+
+    Stripe.card.createToken($form, stripeResponseHandler);
+
+    // Prevent the form from submitting with the default action
+    return false;
+  });
+});
+{% endblock %}
+
+
+
+
+
+<!-- Post content -->
+{% block post_content_index %}
+<div class="container">
+   <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">Product name</a></h4>
+                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
+                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                        <input type="email" class="form-control" id="exampleInputEmail1" value="3">
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">Product name</a></h4>
+                                <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
+                                <span>Status: </span><span class="text-warning"><strong>Leaves warehouse in 2 - 3 weeks</strong></span>
+                            </div>
+                        </div></td>
+                        <td class="col-md-1" style="text-align: center">
+                        <input type="email" class="form-control" id="exampleInputEmail1" value="2">
+                        </td>
+                        <td class="col-md-1 text-center"><strong>$4.99</strong></td>
+                        <td class="col-md-1 text-center"><strong>$9.98</strong></td>
+                        <td class="col-md-1">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </button></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong>$24.59</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong>$6.94</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong>$31.53</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                        </button></td>
+                        <td>
+                        <button type="button" class="btn btn-success">
+                            Checkout <span class="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class = 'row'>
+  <div class = 'col-sm-4 col-sm-offset-4'>
+
+
+    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Buy Now</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+<!--               <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+              <!-- <table>
+                <tr>
+                  <td><h4 class="modal-title">Complete Your Payment</h4><td>
+                  <td><img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png"></td>
+                </tr>
+              </table> -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Complete Your Payment</h4>
+            </div>
+
+            <div class="modal-body">
+
+              <form class='form' action="" method="POST" id="payment-form">{% csrf_token %}
+                <span class="payment-errors"></span>
+
+
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="form-group">                        
+                        <label for="cardNumber">CARD HOLDER'S NAME</label>
+                        <div class="input-group">
+                            
+                            <input 
+                                type="text"
+                                class="form-control"
+                                name="cardName"
+                                size="20"
+                                data-stripe="name"
+                                placeholder="Name on Card"
+                                autocomplete="cc-name"
+                                required autofocus 
+                            />
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            
+                        </div>
+                        
+                    </div>                            
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div class="form-group">                        
+                        <label for="cardNumber">CARD NUMBER</label>
+                        <div class="input-group">
+                            
+                            <input 
+                                type="text"
+                                class="form-control"
+                                name="cardNumber"
+                                size="20"
+                                data-stripe="number"
+                                placeholder="Valid Card Number"
+                                autocomplete="cc-number"
+                                required autofocus 
+                            />
+                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                            
+                        </div>
+                        <img class="img-responsive" width="50%" src="http://i76.imgup.net/accepted_c22e0.png">
+                    </div>                            
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-xs-7 col-md-7">
+                      <div class="form-group">
+                          <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                          <div class="input-group">
+
+                          <input 
+                              type="text" 
+                              class="form-control"
+                              name="cardExpiryMM"
+                              size="2" 
+                              data-stripe="exp-month"
+                              placeholder="MM"
+                              autocomplete="cc-exp"
+                              required 
+                          />
+                          <span class="input-group-btn">/</span>
+                          <input 
+                              type="text" 
+                              name="cardExpiryYY"
+                              class="form-control"
+                              size="4" 
+                              data-stripe="exp-year"
+                              placeholder="YYYY"
+                              autocomplete="cc-exp"
+                              required 
+                          />
+                          <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-5 col-md-5 pull-right">
+                    <div class="form-group">
+                        <label for="cardCVC">CVC</label>
+                        <div class="input-group">
+                          <input 
+                              type="text" 
+                              class="form-control"
+                              name="cardCVC"
+                              Size="4"
+                              data-stripe="cvc"
+                              placeholder="CVC"
+                              autocomplete="cc-csc"
+                              required
+                          />
+                          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button class= 'btn btn-success btn-lg btn-block' type="submit">PAY</button>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block message_board %}
+<div class="row">
+  
+</div>
+{% endblock %}
+
+
+{% block modal %}
+{% endblock %}
+
+

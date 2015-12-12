@@ -55,3 +55,17 @@ docs/_build/
 
 # PyBuilder
 target/
+
+*.sqlite3
+
+*.jpg
+
+*.sqlite3
+
+db.sqlite3
+
+*.sqlite3
+
+db.sqlite3
+
+db.sqlite3
