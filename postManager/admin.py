@@ -24,7 +24,13 @@ class MessageBoardAdmin(admin.ModelAdmin):
     class Meta:
         model = MessageBoard
 
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ["post_id","rating"]
+    class Meta:
+        model = Rating
+
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(PostBase,PostBaseAdmin)
 admin.site.register(MoreImg,MoreImgAdmin)
 admin.site.register(MessageBoard,MessageBoardAdmin)
+admin.site.register(Rating,RatingAdmin)

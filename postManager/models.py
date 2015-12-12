@@ -44,6 +44,12 @@ class MessageBoard(models.Model):
     is_active = models.BooleanField(default=True)
     def __unicode__(self):
         return u'%s' % (self.id)
-    
+
+class Rating(models.Model):
+    post_id = models.ForeignKey('PostBase',null=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    def __unicode__(self):
+        return u'%s' % (self.id)
+
 class Meta:
     app_label = "postManager"
