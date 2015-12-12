@@ -69,6 +69,7 @@
         <div class="user-nav">
           <ul class="">
             <li class="user-nav-control active"><a href="{% url 'accounts.views.user_profile'%}" class="user-nav-control-link">个人资料</a></li>
+            <li class="user-nav-control"><a href="{% url 'accounts.views.user_change_password' %}" class="user-nav-control-link">更改密码</a></li>
             <li class="user-nav-control"><a href="{% url 'accounts.views.user_activity_host' %}" class="user-nav-control-link">你主办的活动</a></li>
             <li class="user-nav-control"><a href="{% url 'accounts.views.user_activity_join' %}" class="user-nav-control-link">你参加的活动</a></li>
             <li class="user-nav-control"><a href="{% url 'accounts.views.user_activity_favorite' %}" class="user-nav-control-link">你收藏的活动</a></li>

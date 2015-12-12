@@ -47,6 +47,7 @@ urlpatterns = [
     # Account
     url(r'^user/$', 'accounts.views.account_admin',name="account_admin"),
     url(r'^user/profile$', 'accounts.views.user_profile',name="user_profile"),
+    url(r'^user/profile/password$', 'accounts.views.user_change_password',name="user_change_password"),
     url(r'^user/activity/host$', 'accounts.views.user_activity_host',name="user_activity_host"),
     url(r'^user/activity/join$', 'accounts.views.user_activity_join',name="user_activity_join"),
     url(r'^user/activity/favorite$', 'accounts.views.user_activity_favorite',name="user_activity_favorite"),

@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, RequestContext, render
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 #Forms
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, PasswordUpdateForm
 # Model
 from accounts.models import MyUser,UserInfo, UserActivation
 from postManager.models import PostBase
@@ -102,4 +102,20 @@ def user_activity_join(request):
 def user_activity_favorite(request):
 	template_name = 'user/user_activity_favorite.html'
 	context = {}
+	return render(request,template_name,context)
+
+@login_required(login_url='/')
+def user_change_password(request):
+	template_name = 'user/user_change_password.html'
+	user = MyUser.objects.get(email__exact=request.user.email)
+	context = {}
+
+	if request.method == 'POST':
+		if 'update_password_sumit' in request.POST:
+			pf = PasswordUpdateForm(request.POST or None, request=request)
+			if pf.is_valid():
+				context={"message":"Ya, you change your password successfully!"}
+			else:
+				context={"message":pf.non_field_errors}
+
 	return render(request,template_name,context)

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-# from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 from models import MyUser, UserInfo
 
 class SignUpForm(ModelForm):
@@ -100,6 +100,7 @@ class SignUpTestForm(forms.Form):
     email = forms.CharField(label='', widget=forms.EmailInput(attrs={'id':"email",'class': "form-control input-md",'required':"",'placeholder':"Email"}))
     password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'id':"password",'class': "form-control input-md",'required':"",'placeholder':"Password"}))
     error_css_class = 'error'
+    
     class Meta:
         model = MyUser
         fields = '__all__'
@@ -127,5 +128,34 @@ class SignUpTestForm(forms.Form):
 
         # return user
 
+class PasswordUpdateForm(forms.Form):
+
+    old_password = forms.CharField(label='', widget=forms.PasswordInput)
+    new_password = forms.CharField(label='', widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label='', widget=forms.PasswordInput)
+
+    class Meta:
+        model = MyUser
+        fields = '__all__'
+
+    def __init__(self,*args,**kwargs):
+        self.request = kwargs.pop("request")
+        super(PasswordUpdateForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        password_in_db = self.request.user.password
+        new = self.cleaned_data['new_password']
+        confirm = self.cleaned_data['confirm_password']
+
+        if confirm !=new:
+            raise ValidationError('Oops, Your password is not match.')
+
+        elif not self.request.user.check_password(self.cleaned_data['old_password']):
+            raise ValidationError('Oops, Your password is not correct.')
+        else:
+            user = self.request.user
+            user.set_password(self.cleaned_data["new_password"])
+            user.save()
+            
 
 
