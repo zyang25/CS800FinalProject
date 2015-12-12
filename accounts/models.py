@@ -116,7 +116,13 @@ class UserInfo(models.Model):
     class Meta:
         verbose_name_plural=u'User information'
 
-
+class UserMessage(models.Model):
+    user_id = models.ForeignKey(MyUser,null=True)
+    message = models.CharField(max_length=50,blank=False)
+    is_read = models.BooleanField(default=False)
+    time = models.DateTimeField(default=timezone.now, blank=True)
+    def __unicode__(self):
+        return u'%s' % (self.id)
 
 class userStripe(models.Model):
     user = models.OneToOneField(MyUser)

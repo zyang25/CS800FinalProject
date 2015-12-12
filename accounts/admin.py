@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
-from accounts.models import MyUser, UserActivation, UserInfo, userStripe
+from accounts.models import MyUser, UserActivation, UserInfo, userStripe, UserMessage
 
 
 class UserCreationForm(forms.ModelForm):
@@ -83,18 +83,24 @@ class MyUserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ()
 
+class UserMessageAdmin(admin.ModelAdmin):
+    list_display = ["user_id","message","is_read","time"]
+    class Meta:
+        model = UserMessage
+        fields = '__all__'
+
 class userStripeAdmin(admin.ModelAdmin):
+    list_display = ["user","stripe_id"]
     class Meta:
         model = userStripe
 
 admin.site.register(userStripe, userStripeAdmin)
 
-
-
 # Now register the new UserAdmin...
 admin.site.register(MyUser,MyUserAdmin)
 admin.site.register(UserActivation)
 admin.site.register(UserInfo)
+admin.site.register(UserMessage,UserMessageAdmin)
 # admin.site.register(UserProfile,MyUserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
