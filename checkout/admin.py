@@ -13,8 +13,9 @@ class CheckoutAdmin(admin.ModelAdmin):
 admin.site.register(Ticket,CheckoutAdmin)
 
 
-# class userStripeAdmin(admin.ModelAdmin):
-# 	class Meta:
-# 		model = userStripe
+class PurchaseDetailsAdmin(admin.ModelAdmin):
+	list_display = ["__unicode__"]
+	class Meta:
+		model = PurchaseDetails
 
-# admin.site.register(userStripe, userStripeAdmin)
+admin.site.register(PurchaseDetails,PurchaseDetailsAdmin)

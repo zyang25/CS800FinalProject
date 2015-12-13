@@ -145,6 +145,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static", "static_dirs"),
 )
 
+
+
+# # Post images stuff
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY', 'AKIAJO7XZVYCRFIQ6RDQ')
@@ -152,6 +155,9 @@ STATICFILES_DIRS = (
 # AWS_STORAGE_BUCKET_NAME = 'wejoinbob'
 
 # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
+
 
 
 AUTH_USER_MODEL = 'accounts.MyUser'

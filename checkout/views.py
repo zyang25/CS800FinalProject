@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from checkout.models import PurchaseDetails
 import stripe
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -44,21 +45,29 @@ def checkout(request):
 	customer_id = request.user.userstripe.stripe_id
 	if request.method == 'POST':
 		token = request.POST['stripeToken']
-		print token
+
 	# Create the charge on Stripe's servers - this will charge the user's card
 		try:
 		  # Associate card information to a customer_id
-		  customer = stripe.Customer.retrieve(customer_id)
-		  customer.sources.create(source=token)
-		  charge = stripe.Charge.create(
-      			amount=1000, # amount in cents, again
-      			currency="usd",
-      			customer=customer,
-      			description="payinguser@example.com"
-  				)
+			customer = stripe.Customer.retrieve(customer_id)
+			customer.sources.create(source=token)
+			charge = stripe.Charge.create(
+				amount=1000, # amount in cents, again
+				currency="usd",
+				customer=customer,
+				description="payinguser@example.com"
+			)
+			if charge['status'] == "succeeded":
+				purchaseRec = PurchaseDetails.objects.create()
+				user_id = request.user.userstripe.user  
+				purchaseRec.user = user_id
+				purchaseRec.amount_price = charge['amount']
+				purchaseRec.amount_items = "2"
+				purchaseRec.save()
 		except stripe.error.CardError, e:
-		  # The card has been declined
-		  pass
+				  # The card has been declined
+			pass
+
 	context = {'publishKey':publishKey}
 	template = 'details_tpl.html'
 	return render(request, template, context)
