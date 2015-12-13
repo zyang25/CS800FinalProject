@@ -1,6 +1,8 @@
 from django.db import models
 from postManager.models import PostBase
-# from accounts.models import MyUser
+from accounts.models import MyUser
+from django.core.signals import request_finished
+
 # from django.conf import settings
 # import stripe
 
@@ -18,12 +20,11 @@ class Ticket(models.Model):
 			return u'%s:%s' % (self.ticket_descrption, self.price)
 
 
-# class userStripe(models.Model):
-# 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
-# 	stripe_id = models.CharField(max_length=200, null=True, blank=True)
+class PurchaseDetails(models.Model):
+	user = models.ForeignKey('accounts.MyUser',null=True)
+	post_id = models.ForeignKey('postManager.PostBase',null=True)
+	amount_price = models.DecimalField(max_digits=8, decimal_places=2,null=True)
+	amount_items = models.IntegerField(null=True)
 
-# 	def __unicode__(self):
-# 		if self.stripe_id:
-# 			return str(self.stripe_id)
-# 		else:
-# 			return self.user.username
+	def __unicode__(self):
+		return u'%s: %s' % (self.user, self.post_id)
