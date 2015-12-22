@@ -24,3 +24,8 @@ body {
     background-size: cover;
     -o-background-size: cover;
 }
+
+.responsive-video {
+    width: 100%    !important;
+    height: auto   !important;
+}
