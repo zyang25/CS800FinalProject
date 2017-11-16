@@ -1,2 +1,1 @@
-# CS800FinalProject
-CS800 final project
+# CS800FinalProject Django version
